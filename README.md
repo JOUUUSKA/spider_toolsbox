@@ -18,9 +18,10 @@ from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 ```
   
-#使用指南  
+**#使用指南**  
  
-##识别验证码
+##识别验证码  
+
 **1、识别英文＋数字验证码**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
@@ -30,7 +31,7 @@ spidertool.ocr_img(img_path)
 ```
 返回给图片中显示的验证码  
 
-**2、识别英文＋数字验证码**
+**2、识别滑块验证码**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()
@@ -39,7 +40,7 @@ spidertool.ocr_slide_with_hole(bgimg_path, fullpage_path)
 ```
 返回图片中显示的滑块图缺口坐标  
 
-**3、识别英文＋数字验证码**
+**3、识别点选验证码**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -48,16 +49,16 @@ spidertool.ocr_click_choose(test_img_path, result_img_path)
 ```
 返回图片中显示的 点选验证码 所在坐标  
 
-##下载系列
+**##下载系列**
 
-**3、下载视频**
+**1、下载视频**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 
 spidertool.download_video(url)
 ```
-**3、下载图片**
+**2、下载图片**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -72,16 +73,16 @@ spidertool = spidertools()
 spidertool.download_character(url)
 ```
 
-##快捷操作
+**##快捷操作**
 
-**3、快速打开JS文件**
+**1、快速打开JS文件**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 
 spidertool.open_js(js_file)
 ```
-**3、快速创建一个时间戳**
+**2、快速创建一个时间戳**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -96,7 +97,7 @@ spidertool = spidertools()
 spidertool.create_timestamp()
 ```
 
-**3、快速创建UA**
+**4、快速创建UA**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -104,7 +105,7 @@ spidertool = spidertools()
 spidertool.create_headers()
 ```
 
-**3、快速定位元素**
+**5、快速定位元素**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -112,9 +113,7 @@ spidertool = spidertools()
 spidertool.re(res, str_1, str_2)
 ```
 
-##发送请求
-
-**3、发送请求**
+**发送各类请求**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -128,9 +127,7 @@ spidertool.patch()
 spidertool.delete()
 ```
 
-##重构功能
-
-**3、重构response**
+**重构response**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -138,8 +135,7 @@ spidertool = spidertools()
 spidertool.rebuidtext(res)
 ```
 
-##JSON
-**3、JSON系列**
+**JSON系列**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -150,9 +146,7 @@ spidertool.json_dumps(data)
 spidertool.json_dump(data)
 ```
 
-##美化控制台输出
-
-**3、美化控制台输出格式**
+**美化控制台输出格式**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -163,9 +157,7 @@ spidertool.warning()
 spidertool.error()
 ```
 
-##装饰器
-
-**3、常用装饰器**
+**常用装饰器**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -180,7 +172,7 @@ def test2:...
 def test3:...
 ```
 
-#个人感想  
+**#个人感想 ** 
 
 自己玩爬虫有一段时间了，<br>
 在制作爬虫的过程中，<br>
@@ -195,7 +187,7 @@ def test3:...
 <br>  
 
 
-#解答  
+**#解答**  
 
 若是对此项目中的API存疑，  
 可**鼠标中键**点击进入项目内部**查看源码注释**，  
