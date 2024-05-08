@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 '''
 @Project ：crawl
-@File    ：SpiderTools.py
+@File    ：spidertools.py
 @IDE     ：PyCharm
 @Author  ：JOUSKA.
 @Date    ：2023/12/14 10:50

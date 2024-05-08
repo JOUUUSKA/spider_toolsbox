@@ -13,7 +13,7 @@ pip install spider_toolsbox
 
 ## 2、实例化
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
+from spider_toolsbox.spidertools import SpiderTools
 spidertool = SpiderTools()  
 ```
   
@@ -29,8 +29,8 @@ spidertool = SpiderTools()
 
 **1、识别英文＋数字验证码**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()   
 
 spidertool.ocr_img(img_path)
 ```
@@ -38,8 +38,8 @@ spidertool.ocr_img(img_path)
 
 **2、识别滑块验证码**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()  
   
 spidertool.ocr_slide_with_hole(bgimg_path, fullpage_path)
 ```
@@ -47,8 +47,8 @@ spidertool.ocr_slide_with_hole(bgimg_path, fullpage_path)
 
 **3、识别点选验证码**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.ocr_click_choose(test_img_path, result_img_path)
 ```
@@ -58,22 +58,22 @@ spidertool.ocr_click_choose(test_img_path, result_img_path)
 
 **1、下载视频**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.download_video(url)
 ```
 **2、下载图片**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.download_img(url)
 ```
 **3、下载文本**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.download_character(url)
 ```
@@ -82,46 +82,46 @@ spidertool.download_character(url)
 
 **1、快速打开JS文件**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.open_js(js_file)
 ```
 **2、快速创建一个时间戳**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.create_timestamp(js)
 ```
 **3、快速创建一个随机字符串**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.create_random_str()
 ```
 
 **4、快速创建UA**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.create_headers()
 ```
 
 **5、快速定位元素**
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.re(res, str_1, str_2)
 ```
 
 ## 四、发送各类请求
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.get()
 spidertool.post()
@@ -134,16 +134,16 @@ spidertool.delete()
 
 ## 五、重构response
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.rebuidtext(res)
 ```
 
 ## 六、JSON系列
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.json_loads(data)
 spidertool.json_load(data)
@@ -153,8 +153,8 @@ spidertool.json_dump(data)
 
 ## 七、美化控制台输出格式
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 spidertool.info()
 spidertool.debug()
@@ -164,8 +164,8 @@ spidertool.error()
 
 ## 八、常用装饰器
 ```python  
-from spider_toolsbox.SpiderTools import SpiderTools
-spidertool = SpiderTools()  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()    
 
 @spidertool.catch_bug
 def test1:...
