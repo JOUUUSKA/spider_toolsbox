@@ -26,6 +26,9 @@ class spidertools:
         进行请求头初始化设置
         '''
         self.headers = {'User-Agent': UserAgent().random}
+        self.image_count = 0
+        self.txt_count = 0
+        self.video_count = 0
 
     def open_js(self, js):
         '''
@@ -48,14 +51,8 @@ class spidertools:
         在下载图片时，对图片文件进行有序化命名,
         有序化命名的示例: image_1,image_2,image_3
         '''
-        count = 0
-
-        def inner():
-            nonlocal count
-            count += 1
-            return f"image_{count}"
-
-        return inner
+        self.image_count += 1
+        return f"image_{self.image_count}"
 
     def txt_name(self):
         '''
@@ -66,14 +63,8 @@ class spidertools:
         在下载文本时，对文本文件进行有序化命名,
         有序化命名的示例: txt_1,txt_2,txt_3
         '''
-        count = 0
-
-        def inner():
-            nonlocal count
-            count += 1
-            return f"txt_{count}"
-
-        return inner
+        self.txt_count += 1
+        return f"image_{self.txt_count}"
 
     def video_name(self):
         '''
@@ -84,16 +75,10 @@ class spidertools:
         在下载视频时，对视频文件进行有序化命名,
         有序化命名的示例: video_1,video_2,video_3
         '''
-        count = 0
+        self.video_count += 1
+        return f"image_{self.video_count}"
 
-        def inner():
-            nonlocal count
-            count += 1
-            return f"video_{count}"
-
-        return inner
-
-    def download_video(self, url, headers=None, data=None, params=None, name=None, type_=None, mode=None,**kwargs):
+    def download_video(self, url, headers=None, data=None, params=None, name=None, type_=None, mode=None, **kwargs):
         '''
         :param url: 需要下载的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -114,7 +99,7 @@ class spidertools:
         那么:
         headers 默认为 self.headers
         type_ 默认为 'mp4'
-        name 默认为 str(self.video_name())
+        name 默认为 str(self.video_name()
         mode 默认为 'wb'
 
         并在此文件夹下新建一个Download_video文件夹，对下载的视频进行持久化存储
@@ -129,7 +114,7 @@ class spidertools:
             headers = self.headers
         if not os.path.exists('./Download_video'):
             os.mkdir('./Download_video')
-        response = requests.get(url, headers=headers, data=data, params=params,**kwargs)
+        response = requests.get(url, headers=headers, data=data, params=params, **kwargs)
         if response.status_code == 200:
             with  open(f"./Download_video/{name}.{type_}", mode) as f:
                 f.write(response.content)
@@ -137,7 +122,7 @@ class spidertools:
         else:
             print(f"{name}.{type_} 下载失败")
 
-    def download_img(self, url, headers=None, data=None, params=None, name=None, type_=None, mode=None,**kwargs):
+    def download_img(self, url, headers=None, data=None, params=None, name=None, type_=None, mode=None, **kwargs):
         '''
         :param url: 需要下载的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -158,7 +143,7 @@ class spidertools:
         那么:
         headers 默认为 self.headers
         type_ 默认为 'jpg'
-        name 默认为 str(self.image_name())
+        name 默认为 str(self.image_name()
         mode 默认为 'wb'
 
         并在此文件夹下新建一个Download_image文件夹，对下载的 图片 进行持久化存储
@@ -173,7 +158,7 @@ class spidertools:
             headers = self.headers
         if not os.path.exists('./Download_img'):
             os.mkdir('./Download_img')
-        response = requests.get(url, headers=headers, data=data, params=params,**kwargs)
+        response = requests.get(url, headers=headers, data=data, params=params, **kwargs)
         if response.status_code == 200:
             with  open(f"./Download_img/{name}.{type_}", mode) as f:
                 f.write(response.content)
@@ -198,7 +183,7 @@ class spidertools:
         对其他参数没有进行特别指定，
         那么:
         type_ 默认为 'txt'
-        name 默认为 str(self.txt_name())
+        name 默认为 str(self.txt_name()
         mode 默认为 'w'
 
         并在此文件夹下新建一个Download_txt文件夹，对下载的 文本 进行持久化存储
@@ -256,8 +241,8 @@ class spidertools:
         :param imgpath: 需要识别的背景图片路径
         :param fullpage_path: 需要识别的全图片路径
         :return: 图片中显示的验证码缺口坐标
-        
-        
+
+
         此函数用于识别 小滑块为单独的png图片，背景是透明图的滑块图，
         返回图片中显示的滑块图缺口坐标
         '''
@@ -348,7 +333,7 @@ class spidertools:
             result += random.choice(pool)
         return result
 
-    def get(self, url, headers=None, data=None, params=None,**kwargs):
+    def get(self, url, headers=None, data=None, params=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -361,9 +346,9 @@ class spidertools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request('get', url, headers=headers, params=params, data=data,**kwargs)
+        return requests.request('get', url, headers=headers, params=params, data=data, **kwargs)
 
-    def options(self, url, headers=None, data=None, params=None,**kwargs):
+    def options(self, url, headers=None, data=None, params=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -376,9 +361,9 @@ class spidertools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("options", url, headers=headers, data=data, params=params,**kwargs)
+        return requests.request("options", url, headers=headers, data=data, params=params, **kwargs)
 
-    def head(self, url, headers=None, data=None, params=None,**kwargs):
+    def head(self, url, headers=None, data=None, params=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -391,9 +376,9 @@ class spidertools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("head", url, headers=headers, data=data, params=params,**kwargs)
+        return requests.request("head", url, headers=headers, data=data, params=params, **kwargs)
 
-    def post(self, url, headers=None, data=None, params=None,**kwargs):
+    def post(self, url, headers=None, data=None, params=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -406,9 +391,9 @@ class spidertools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("post", url, headers=headers, data=data, json=json, params=params,**kwargs)
+        return requests.request("post", url, headers=headers, data=data, json=json, params=params, **kwargs)
 
-    def put(self, url, headers=None, data=None, params=None,**kwargs):
+    def put(self, url, headers=None, data=None, params=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -421,9 +406,9 @@ class spidertools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("put", url, headers=headers, data=data, params=params,**kwargs)
+        return requests.request("put", url, headers=headers, data=data, params=params, **kwargs)
 
-    def patch(self, url, headers=None, data=None, params=None,**kwargs):
+    def patch(self, url, headers=None, data=None, params=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -436,9 +421,9 @@ class spidertools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("patch", url, headers=headers, data=data, params=params,**kwargs)
+        return requests.request("patch", url, headers=headers, data=data, params=params, **kwargs)
 
-    def delete(self, url, headers=None, data=None, params=None,**kwargs):
+    def delete(self, url, headers=None, data=None, params=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -451,7 +436,7 @@ class spidertools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("delete", url, headers=headers, data=data, params=params,**kwargs)
+        return requests.request("delete", url, headers=headers, data=data, params=params, **kwargs)
 
     def re(self, res, str_1, str_2):
         '''
