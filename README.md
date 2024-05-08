@@ -79,7 +79,7 @@ spidertool.download_character(url)
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 
-spidertool.open_js(js)
+spidertool.open_js(js_file)
 ```
 **3、快速创建一个时间戳**
 ```python  
