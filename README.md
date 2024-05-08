@@ -1,4 +1,4 @@
-**# 安装指南 ** 
+# 安装指南 
 
 ## 1、安装依赖
 ```python  
@@ -17,7 +17,7 @@ from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 ```
   
-**# 使用指南**  
+# 使用指南
  
 ## 识别验证码  
 
@@ -171,7 +171,7 @@ def test2:...
 def test3:...
 ```
 
-**# 个人感想 ** 
+# 个人感想 
 
 自己玩爬虫有一段时间了，<br>
 在制作爬虫的过程中，<br>
@@ -186,7 +186,7 @@ def test3:...
 <br>  
 
 
-**# 解答**  
+# 解答  
 
 若是对此项目中的API存疑，  
 可**鼠标中键**点击进入项目内部**查看源码注释**，  
