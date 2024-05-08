@@ -4,7 +4,9 @@
 ```python  
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python==4.3.0.38 
 ```
-要使用Spider_ToolsBox里面的验证码识别模块需要cv2依赖库，这个库安装有一些坑，但是只要复制上面这段安装指令即可绕过。  
+要使用Spider_ToolsBox里面的验证码识别模块需要cv2依赖库，  
+这个库安装有一些坑，  
+但是只要复制上面这段安装指令即可绕过。  
 
 ##2、安装Spider_ToolsBox
 ```python  
@@ -178,7 +180,8 @@ def test2:...
 def test3:...
 ```
 
-#个人感想
+#个人感想  
+
 自己玩爬虫有一段时间了，<br>
 在制作爬虫的过程中，<br>
 发现很多好用的三方库，<br>
@@ -192,7 +195,8 @@ def test3:...
 <br>  
 
 
-#解答
+#解答  
+
 若是对此项目中的API存疑，  
 可**鼠标中键**点击进入项目内部**查看源码注释**，  
 笔者已做好**详细的注释**供各位参考  
