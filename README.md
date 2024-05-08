@@ -1,6 +1,6 @@
-#安装指南  
+**# 安装指南 ** 
 
-##1、安装依赖
+## 1、安装依赖
 ```python  
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python==4.3.0.38 
 ```
@@ -11,15 +11,15 @@ pip install Spider_ToolsBox
 这个库安装有一些坑，  
 但是只要复制上面这段安装指令即可绕过。  
 
-##2、实例化
+## 2、实例化
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 ```
   
-**#使用指南**  
+**# 使用指南**  
  
-##识别验证码  
+## 识别验证码  
 
 **1、识别英文＋数字验证码**
 ```python  
@@ -48,7 +48,7 @@ spidertool.ocr_click_choose(test_img_path, result_img_path)
 ```
 返回图片中显示的 点选验证码 所在坐标  
 
-**##下载系列**
+**## 下载系列**
 
 **1、下载视频**
 ```python  
@@ -72,7 +72,7 @@ spidertool = spidertools()
 spidertool.download_character(url)
 ```
 
-**##快捷操作**
+**## 快捷操作**
 
 **1、快速打开JS文件**
 ```python  
@@ -171,7 +171,7 @@ def test2:...
 def test3:...
 ```
 
-**#个人感想 ** 
+**# 个人感想 ** 
 
 自己玩爬虫有一段时间了，<br>
 在制作爬虫的过程中，<br>
@@ -186,7 +186,7 @@ def test3:...
 <br>  
 
 
-**#解答**  
+**# 解答**  
 
 若是对此项目中的API存疑，  
 可**鼠标中键**点击进入项目内部**查看源码注释**，  
