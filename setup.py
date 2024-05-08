@@ -7,12 +7,13 @@
 @Date    ：2024-05-07 20:16 
 '''
 import setuptools
+
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="Spider_ToolsBox",
-    version="0.0.7",
+    version="0.0.6",
     author="JOUUUSKA",
     author_email="1393827820@qq.com",
     description="Package For Crawler",

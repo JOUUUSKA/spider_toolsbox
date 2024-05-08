@@ -241,8 +241,8 @@ class spidertools:
         :param imgpath: 需要识别的背景图片路径
         :param fullpage_path: 需要识别的全图片路径
         :return: 图片中显示的验证码缺口坐标
-
-
+        
+        
         此函数用于识别 小滑块为单独的png图片，背景是透明图的滑块图，
         返回图片中显示的滑块图缺口坐标
         '''
