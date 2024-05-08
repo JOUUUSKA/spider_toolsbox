@@ -22,7 +22,7 @@ spidertool = spidertools()
 **声明**  
 为方便Crawler发送请求，  
 此库中所有和请求相关的API都已默认使用fakeUA库内置UserAgent，  
-不需要在网页上或三方库内获取设置UA，
+不需要在网页上或三方库内获取设置UA，  
 各位如需自定义headers，按正常步骤设置即可。
  
 ## 一、识别验证码  
