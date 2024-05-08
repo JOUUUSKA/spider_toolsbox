@@ -4,15 +4,14 @@
 ```python  
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python==4.3.0.38 
 ```
+```python  
+pip install Spider_ToolsBox  
+```
 要使用Spider_ToolsBox里面的验证码识别模块需要cv2依赖库，  
 这个库安装有一些坑，  
 但是只要复制上面这段安装指令即可绕过。  
 
-##2、安装Spider_ToolsBox
-```python  
-pip install Spider_ToolsBox  
-```
-##3、实例化
+##2、实例化
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
