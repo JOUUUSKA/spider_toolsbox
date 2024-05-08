@@ -19,7 +19,7 @@ spidertool = spidertools()
   
 # 使用指南
  
-## 识别验证码  
+## 一、识别验证码  
 
 **1、识别英文＋数字验证码**
 ```python  
@@ -48,7 +48,7 @@ spidertool.ocr_click_choose(test_img_path, result_img_path)
 ```
 返回图片中显示的 点选验证码 所在坐标  
 
-## 下载系列
+## 二、下载系列
 
 **1、下载视频**
 ```python  
@@ -72,7 +72,7 @@ spidertool = spidertools()
 spidertool.download_character(url)
 ```
 
-## 快捷操作
+## 三、快捷操作
 
 **1、快速打开JS文件**
 ```python  
@@ -112,7 +112,7 @@ spidertool = spidertools()
 spidertool.re(res, str_1, str_2)
 ```
 
-**发送各类请求**
+## 四、发送各类请求
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -126,7 +126,7 @@ spidertool.patch()
 spidertool.delete()
 ```
 
-**重构response**
+## 五、重构response
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -134,7 +134,7 @@ spidertool = spidertools()
 spidertool.rebuidtext(res)
 ```
 
-**JSON系列**
+## 六、JSON系列
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -145,7 +145,7 @@ spidertool.json_dumps(data)
 spidertool.json_dump(data)
 ```
 
-**美化控制台输出格式**
+## 七、美化控制台输出格式
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
@@ -156,7 +156,7 @@ spidertool.warning()
 spidertool.error()
 ```
 
-**常用装饰器**
+## 八、常用装饰器
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
