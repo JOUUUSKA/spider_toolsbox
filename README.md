@@ -48,7 +48,7 @@ spidertool.ocr_click_choose(test_img_path, result_img_path)
 ```
 返回图片中显示的 点选验证码 所在坐标  
 
-**## 下载系列**
+## 下载系列
 
 **1、下载视频**
 ```python  
@@ -72,7 +72,7 @@ spidertool = spidertools()
 spidertool.download_character(url)
 ```
 
-**## 快捷操作**
+## 快捷操作
 
 **1、快速打开JS文件**
 ```python  
