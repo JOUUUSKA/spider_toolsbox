@@ -86,14 +86,14 @@ spidertool.open_js(js_file)
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 
-spidertool.open_js(js)
+spidertool.create_timestamp(js)
 ```
 **3、快速创建一个随机字符串**
 ```python  
 from Spider_ToolsBox.SpiderTools import spidertools
 spidertool = spidertools()  
 
-spidertool.create_timestamp()
+spidertool.create_random_str()
 ```
 
 **4、快速创建UA**
