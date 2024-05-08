@@ -20,7 +20,7 @@ from loguru import logger
 from lxml import etree
 
 
-class spidertools:
+class SpiderTools:
     def __init__(self):
         '''
         进行请求头初始化设置

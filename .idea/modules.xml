@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Spider_ToolsBox.iml" filepath="$PROJECT_DIR$/.idea/Spider_ToolsBox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/spider_toolsbox.iml" filepath="$PROJECT_DIR$/.idea/spider_toolsbox.iml" />
     </modules>
   </component>
 </project>
