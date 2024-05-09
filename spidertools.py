@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 '''
 @Project ：crawl
-@File    ：spidertools.py
+@File    ：spider_tools.py
 @IDE     ：PyCharm
 @Author  ：JOUSKA.
 @Date    ：2023/12/14 10:50
@@ -451,7 +451,7 @@ class SpiderTools:
 
         使用实例:
         a = 123aaa456bbb456ccc456
-        print(spidertools().re(a,'123','456')) ==> aaa
+        print(spider_tools().re(a,'123','456')) ==> aaa
         '''
 
         pattern = re.compile(r'{}(.*?){}'.format(re.escape(str_1), re.escape(str_2)))

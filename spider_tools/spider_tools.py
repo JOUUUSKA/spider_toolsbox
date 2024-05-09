@@ -466,7 +466,7 @@ class SpiderTools:
 
         使用实例:
         a = 123aaa456bbb456ccc456
-        print(spidertools().re(a,'123','456')) ==> aaa
+        print(spider_tools().re(a,'123','456')) ==> aaa
         '''
 
         pattern = re.compile(r'{}(.*?){}'.format(re.escape(str_1), re.escape(str_2)))
