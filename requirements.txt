@@ -1,0 +1,9 @@
+requests,
+opencv-python==4.3.0.38,
+ddddocr,
+pyexecjs,
+fake_useragent, 
+loguru,
+lxml,
+pycryptodome,
+jwt

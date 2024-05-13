@@ -6,15 +6,27 @@
 @Author  ：JOUSKA.
 @Date    ：2023/12/14 10:50
 '''
-import cv2
-import ddddocr
-import execjs
+import base64
+import hashlib
+import hmac
 import json
 import os
 import random
 import re
-import requests
 import time
+
+import cv2
+import ddddocr
+import execjs
+import jwt
+import requests
+from Crypto.Cipher import AES
+from Crypto.Cipher import DES
+from Crypto.Cipher import PKCS1_v1_5
+from Crypto.Hash import SHA256
+from Crypto.Protocol.KDF import PBKDF2
+from Crypto.PublicKey import RSA
+from Crypto.Util.Padding import pad
 from fake_useragent import UserAgent
 from loguru import logger
 from lxml import etree
@@ -596,12 +608,12 @@ class SpiderTools:
         在报错时，会在控制台显示抛出错误的函数名称，用于快速定位
 
         使用示例:
-            @spidertool.catch_bug
-            def test_func():
-                raise Exception('测试函数报错了')
+                @spidertool.catch_bug
+                def test_func():
+                    raise Exception('测试函数报错了')
 
-            if __name__ == '__main__':
-                test_func() ==> test_func 抛出异常，异常已捕获，内容如下:测试函数报错了
+                if __name__ == '__main__':
+                    test_func() ==> test_func 抛出异常，异常已捕获，内容如下:测试函数报错了
         '''
 
         def wrapper(*args, **kwargs):
@@ -623,11 +635,11 @@ class SpiderTools:
         此函数用于测试函数运行时间
 
         使用示例:
-            @spidertool.test_time
-            def test_func():sleep(2)
+                @spidertool.test_time
+                def test_func():sleep(2)
 
-            if __name__ == '__main__':
-                test_func ==> test_func 函数在 0m 2s 内完成
+                if __name__ == '__main__':
+                    test_func ==> test_func 函数在 0m 2s 内完成
         '''
 
         def target(*args, **kwargs):
@@ -653,26 +665,26 @@ class SpiderTools:
         重试次数 与 重试间隔 自行指定
 
         使用示例:
-        @spidertool.retry(max_attempts=5, delay=2) 或 @spidertool.retry(5, 2)
-        def test_func():
-            raise Exception('报错了')
+                @spidertool.retry(max_attempts=5, delay=2) 或 @spidertool.retry(5, 2)
+                def test_func():
+                    raise Exception('报错了')
 
-        if __name__ == '__main__':
-            test_func() ==> 捕获到aaa异常，将在 2 秒后进行第 1 次重试
-                            捕获到aaa异常，将在 2 秒后进行第 2 次重试
-                            捕获到aaa异常，将在 2 秒后进行第 3 次重试
-                            捕获到aaa异常，将在 2 秒后进行第 4 次重试
-                            捕获到aaa异常，将在 2 秒后进行第 5 次重试
-                            aaa异常情况如下:报错了
+                if __name__ == '__main__':
+                    test_func() ==> 捕获到aaa异常，将在 2 秒后进行第 1 次重试
+                                    捕获到aaa异常，将在 2 秒后进行第 2 次重试
+                                    捕获到aaa异常，将在 2 秒后进行第 3 次重试
+                                    捕获到aaa异常，将在 2 秒后进行第 4 次重试
+                                    捕获到aaa异常，将在 2 秒后进行第 5 次重试
+                                    aaa异常情况如下:报错了
 
-                            Traceback (most recent call last):
-                              File "D:\pythonProject\草稿.py", line 18, in <module>
-                                test_func()
-                              File "D:\pythonProject\Spider_ToolBox\SpiderTools.py", line 667, in wrapper
-                                raise Exception("已达到所设置的{}次最大重试次数".format(max_attempts))
-                            Exception: 已达到所设置的5次最大重试次数
+                                    Traceback (most recent call last):
+                                      File "D:\pythonProject\草稿.py", line 18, in <module>
+                                        test_func()
+                                      File "D:\pythonProject\Spider_ToolBox\SpiderTools.py", line 667, in wrapper
+                                        raise Exception("已达到所设置的{}次最大重试次数".format(max_attempts))
+                                    Exception: 已达到所设置的5次最大重试次数
 
-                            进程已结束,退出代码1
+                                    进程已结束,退出代码1
         '''
 
         def decorator(func):
@@ -693,3 +705,196 @@ class SpiderTools:
             return wrapper
 
         return decorator
+
+    def encrypt_AES(self, data, key, iv, mode='cbc'):
+        '''
+        :param data: 待加密数据
+        :param key: AES算法中的key
+        :param iv: AES算法中的iv
+        :param mode: AES算法中的加密模式，默认为CBC模式，也可手动指定为EBC模式
+        :return: 经过AES算法加密后的数据
+
+        此函数用于还原JS中AES算法,输出格式为base64
+
+        使用示例:
+                spidertool.encrypt_AES(data, key, iv)
+        '''
+        if mode.lower() == 'cbc':
+            cipher = AES.new(key, AES.MODE_CBC, iv)
+        elif mode.lower() == 'ecb':
+            cipher = AES.new(key, AES.MODE_ECB)
+        data = data.encode('utf-8')
+        if len(data) % 16 != 0:
+            data += b' ' * (16 - len(data) % 16)  # Pad the data if necessary
+        encrypted_data = cipher.encrypt(data)
+        return base64.b64encode(encrypted_data)
+
+    def encrypt_DES(self, data, key, iv):
+        '''
+        :param data: 待加密数据
+        :param key: DES算法中的key
+        :param iv: DES算法中的iv
+        :return: 经过DES算法加密后的数据
+
+        此函数用于还原JS中AES算法,输出格式为base64
+
+        使用示例:
+                spidertool.encrypt_DES(data, key, iv)
+        '''
+        cipher = DES.new(key, DES.MODE_CBC, iv)
+        padded_data = pad(data, DES.block_size)
+        encrypted_data = cipher.encrypt(padded_data)
+        return base64.b64encode(encrypted_data)
+
+    def encrypt_RSA(self, message, pubkey, modulus=10001):
+        '''
+        :param message: 待加密数据
+        :param pubkey: RSA算法中的pubkey
+        :param modulus: RSA算法中的模值，默认为10001
+        :return: 经过RSA算法加密后的数据
+
+        此函数用于还原JS中RSA算法
+
+        使用实例:
+                spidertool.encrypt_RSA(message, pubkey)
+        '''
+        key = RSA.construct((pubkey, modulus))
+        cipher = PKCS1_v1_5.new(key)
+        cipher_text = cipher.encrypt(message.encode())
+        return cipher_text.hex()
+
+    def encrypt_Base64(self, data):
+        '''
+        :param data: 待加密的数据
+        :return: 经过base64编码转换后的数据
+
+        此函数用于还原JS中base64编码转换
+
+        使用示例:
+        spidertool.encrypt_Base64(data)
+        '''
+        return base64.b64encode(data)
+
+    def encrypt_MD5(self, data):
+        '''
+        :param data: 待加密的数据
+        :return: 经过md5加密后的数据
+
+        此函数用于还原JS中md5算法加密
+
+        使用实例:
+        spidertool.encrypt_MD5(data)
+        '''
+        md5_hash = hashlib.md5()
+
+        data_bytes = data.encode('utf-8')
+
+        md5_hash.update(data_bytes)
+
+        hex_digest = md5_hash.hexdigest()
+
+        return hex_digest
+
+    def encrypt_SHA1(self, data):
+        '''
+        :param data: 待加密的数据
+        :return: 经过SHA1加密后的数据
+
+        此函数用于还原JS中SHA1算法加密
+
+        使用实例:
+        spidertool.encrypt_SHA1(data)
+        '''
+        sha1 = hashlib.sha1()
+        sha1.update(data.encode())
+        return sha1.hexdigest()
+
+    def encrypt_SHA256(self, data):
+        '''
+        :param data: 待加密的数据
+        :return: 经过SHA256加密后的数据
+
+        此函数用于还原JS中SHA256算法加密
+
+        使用实例:
+        spidertool.encrypt_SHA256(data)
+        '''
+        sha256 = hashlib.sha256()
+        sha256.update(data.encode())
+        return sha256.hexdigest()
+
+    def encrypt_SHA512(self, data):
+        '''
+        :param data: 待加密的数据
+        :return: 经过SHA512加密后的数据
+
+        此函数用于还原JS中SHA512算法加密
+
+        使用实例:
+        spidertool.encrypt_SHA512(data)
+        '''
+        sha512 = hashlib.sha512()
+        sha512.update(data.encode())
+        return sha512.hexdigest()
+
+    def encrypt_SHA384(self, data):
+        '''
+        :param data: 待加密的数据
+        :return: 经过SHA384加密后的数据
+
+        此函数用于还原JS中SHA384算法加密
+
+        使用实例:
+        spidertool.encrypt_SHA384(data)
+        '''
+        hash_object = hashlib.sha384(data.encode())
+        return hash_object.hexdigest()
+
+    def encrypt_HMAC(self, data, key):
+        '''
+        :param data: 待加密的数据
+        :param key: HMAC加密需要的key
+        :return: 经过HMAC加密后的数据
+
+        此函数用于还原JS中HMAC算法加密
+
+        使用实例:
+        spidertool.encrypt_HMAC(data, key)
+        '''
+        h = hmac.new(key, data, digestmod=SHA256)
+        return h.digest()
+
+    def encrypt_JWT(self, data, private_key, algorithm='RS256'):
+        '''
+        :param data: 待加密的数据
+        :param private_key: JWT加密需要的private_key
+        :param algorithm: 签名算法
+        :return: 签名后的JWT
+
+        此函数用于还原JS中JWT算法加密
+
+        使用实例:
+        spidertool.encrypt_JWT(data, private_key)
+        '''
+        # 使用jwt库来生成JWT
+        token = jwt.encode(data, private_key, algorithm=algorithm)
+        return token
+
+    def encrypt_PBKDF2(self, password, salt, iterations, key_length, hash_algorithm):
+        '''
+        :param password: 要派生的密码（字节串）。
+        :param salt: 随机生成的盐（字节串）。
+        :param iterations: 迭代次数，用于增加计算难度。
+        :param key_length: 指定派生密钥的长度（以字节为单位）。
+        :param hash_algorithm: 用于内部哈希计算的算法，如'sha256'、'sha512'等。
+        :return: 派生的密钥（字节串）
+
+        此函数用于还原JS中PBKDF2算法加密,使用PBKDF2算法从密码派生密钥。
+
+        使用示例:
+                spidertool.encrypt_PBKDF2(password, salt, iterations, key_length, hash_algorithm)
+
+        '''
+        key = PBKDF2(password, salt, dkLen=key_length, count=iterations,
+                     prf=lambda p, s: hmac.new(p, s, getattr(hashlib, hash_algorithm)).digest())
+        return key

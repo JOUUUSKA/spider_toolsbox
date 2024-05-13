@@ -12,14 +12,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Spider_ToolsBox",
-    version="0.0.6",
+    name="spider_toolsbox",
+    version="0.0.8",
     author="JOUUUSKA",
     author_email="1393827820@qq.com",
     description="Package For Crawler",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/JOUUUSKA/SpiderToolBox.git",
+    url="https://github.com/JOUUUSKA/spider_toolsbox.git",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -27,5 +27,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires=['requests', 'opencv-python==4.3.0.38', 'ddddocr', 'pyexecjs', 'fake_useragent', 'loguru', 'lxml']
+    install_requires=['requests', 'opencv-python==4.3.0.38', 'ddddocr', 'pyexecjs', 'fake_useragent', 'loguru', 'lxml','pycryptodome','jwt']
 )
