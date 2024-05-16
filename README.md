@@ -85,7 +85,7 @@ spidertool.download_character(txt)
 from spider_toolsbox.spidertools import SpiderTools
 spidertool = SpiderTools()    
 
-spidertool.open_js(js_file)
+spidertool.open_js(js_file_path)
 ```
 **2、快速创建一个时间戳**
 ```python  
