@@ -5,5 +5,4 @@ pyexecjs,
 fake_useragent, 
 loguru,
 lxml,
-pycryptodome,
-jwt
+pycryptodome
