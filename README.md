@@ -75,7 +75,7 @@ spidertool.download_img(url)
 from spider_toolsbox.spidertools import SpiderTools
 spidertool = SpiderTools()    
 
-spidertool.download_character(url)
+spidertool.download_character(txt)
 ```
 
 ## 三、快捷操作
