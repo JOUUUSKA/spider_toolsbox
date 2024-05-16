@@ -92,7 +92,7 @@ spidertool.open_js(js_file_path)
 from spider_toolsbox.spidertools import SpiderTools
 spidertool = SpiderTools()    
 
-spidertool.create_timestamp(js)
+spidertool.create_timestamp()
 ```
 **3、快速创建一个随机字符串**
 ```python  
@@ -160,6 +160,8 @@ spidertool.info()
 spidertool.debug()
 spidertool.warning()
 spidertool.error()
+spidertool.success()
+spidertool.critical()
 ```
 
 ## 八、常用装饰器
