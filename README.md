@@ -5,7 +5,7 @@
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python==4.3.0.38 
 ```
 ```python  
-pip install spider_toolsbox  
+pip install git+https://github.com/JOUUUSKA/spider_toolsbox.git
 ```
 要使用spider_toolsbox里面的验证码识别模块需要cv2依赖库，  
 这个库安装有一些坑，  
