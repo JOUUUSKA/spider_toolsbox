@@ -18,15 +18,13 @@ import time
 import cv2
 import ddddocr
 import execjs
-import jwt
 import requests
 from Crypto.Cipher import AES
 from Crypto.Cipher import DES
-from Crypto.Cipher import PKCS1_v1_5
-from Crypto.Hash import SHA256
+from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.PublicKey import RSA
-from Crypto.Util.Padding import pad
+from Crypto.Util.Padding import pad, unpad
 from fake_useragent import UserAgent
 from loguru import logger
 from lxml import etree
@@ -597,6 +595,24 @@ class SpiderTools:
         '''
         logger.error(msg, *args, **kwargs)
 
+    def success(self, msg, *args, **kwargs):
+        '''
+        :param msg: 需要在控制台输出的数据,输出格式为SUCCESS
+
+
+        此函数用于在控制台输出的数据,输出格式为SUCCESS
+        '''
+        logger.success(msg, *args, **kwargs)
+
+    def critical(self, msg, *args, **kwargs):
+        '''
+        :param msg: 需要在控制台输出的数据,输出格式为CRITICAL
+
+
+        此函数用于在控制台输出的数据,输出格式为CRITICAL
+        '''
+        logger.critical(msg, *args, **kwargs)
+
     @staticmethod
     def catch_bug(func):
         '''
@@ -706,62 +722,246 @@ class SpiderTools:
 
         return decorator
 
-    def encrypt_AES(self, data, key, iv, mode='cbc'):
-        '''
-        :param data: 待加密数据
-        :param key: AES算法中的key
-        :param iv: AES算法中的iv
-        :param mode: AES算法中的加密模式，默认为CBC模式，也可手动指定为EBC模式
-        :return: 经过AES算法加密后的数据
+    def encrypt_AESCBC(self, data, key, iv, output_format='base64'):
+        """
+        使用AES CBC模式加密数据，支持自定义key、iv及输出格式
+        :param data: 待加密的明文数据（bytes类型）
+        :param key: 自定义的密钥（bytes类型）
+        :param iv: 自定义的初始化向量（bytes类型，长度必须为16字节）
+        :param output_format: 输出格式，可选'base64'或'hex'（默认'base64'）
+        :return: 根据指定格式编码后的加密密文（str类型）
+        """
+        if len(iv) != AES.block_size:
+            raise ValueError("IV length must be 16 bytes")
 
-        此函数用于还原JS中AES算法,输出格式为base64
+        cipher = AES.new(key.encode(), AES.MODE_CBC, iv=iv.encode())
+        padded_data = pad(data.encode(), AES.block_size)
+        ciphertext = cipher.encrypt(padded_data)
 
-        使用示例:
-                spidertool.encrypt_AES(data, key, iv)
-        '''
-        if mode.lower() == 'cbc':
-            cipher = AES.new(key, AES.MODE_CBC, iv)
-        elif mode.lower() == 'ecb':
-            cipher = AES.new(key, AES.MODE_ECB)
-        data = data.encode('utf-8')
-        if len(data) % 16 != 0:
-            data += b' ' * (16 - len(data) % 16)  # Pad the data if necessary
-        encrypted_data = cipher.encrypt(data)
-        return base64.b64encode(encrypted_data)
+        if output_format == 'base64':
+            encoded_ciphertext = base64.b64encode(ciphertext)
+            return encoded_ciphertext.decode('utf-8')
+        elif output_format == 'hex':
+            encoded_ciphertext = ciphertext.hex()
+            return encoded_ciphertext
+        else:
+            raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
 
-    def encrypt_DES(self, data, key, iv):
-        '''
-        :param data: 待加密数据
-        :param key: DES算法中的key
-        :param iv: DES算法中的iv
-        :return: 经过DES算法加密后的数据
+    def decrypt_AESCBC(self, encoded_ciphertext, key, iv, input_format='base64'):
+        """
+        使用AES CBC模式解密数据，支持自定义key、iv及输入格式
+        :param encoded_ciphertext: 经过编码的密文数据（str类型）
+        :param key: 自定义的密钥（bytes类型）
+        :param iv: 自定义的初始化向量（bytes类型，长度必须为16字节）
+        :param input_format: 输入格式，可选'base64'或'hex'（默认'base64'）
+        :return: 解密后的明文数据（bytes类型）
+        """
+        if len(iv) != AES.block_size:
+            raise ValueError("IV length must be 16 bytes")
 
-        此函数用于还原JS中AES算法,输出格式为base64
+        if input_format == 'base64':
+            ciphertext = base64.b64decode(encoded_ciphertext.encode('utf-8'))
+        elif input_format == 'hex':
+            ciphertext = bytes.fromhex(encoded_ciphertext)
+        else:
+            raise ValueError("Invalid input format. Supported formats are 'base64' and 'hex'.")
 
-        使用示例:
-                spidertool.encrypt_DES(data, key, iv)
-        '''
-        cipher = DES.new(key, DES.MODE_CBC, iv)
-        padded_data = pad(data, DES.block_size)
-        encrypted_data = cipher.encrypt(padded_data)
-        return base64.b64encode(encrypted_data)
+        cipher = AES.new(key.encode(), AES.MODE_CBC, iv=iv.encode())
+        padded_data = cipher.decrypt(ciphertext)
+        data = unpad(padded_data, AES.block_size)
 
-    def encrypt_RSA(self, message, pubkey, modulus=10001):
-        '''
-        :param message: 待加密数据
-        :param pubkey: RSA算法中的pubkey
-        :param modulus: RSA算法中的模值，默认为10001
-        :return: 经过RSA算法加密后的数据
+        return data.decode()
 
-        此函数用于还原JS中RSA算法
+    def encrypt_AESECB(self, data, key, output_format='base64'):
+        """
+        使用AES ECB模式加密数据，支持自定义key及输出格式
+        :param data: 待加密的明文数据（bytes类型）
+        :param key: 自定义的密钥（bytes类型）
+        :param output_format: 输出格式，可选'base64'或'hex'（默认'base64'）
+        :return: 根据指定格式编码后的加密密文（str类型）
+        """
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        padded_data = pad(data.encode(), AES.block_size)
+        ciphertext = cipher.encrypt(padded_data)
 
-        使用实例:
-                spidertool.encrypt_RSA(message, pubkey)
-        '''
-        key = RSA.construct((pubkey, modulus))
-        cipher = PKCS1_v1_5.new(key)
-        cipher_text = cipher.encrypt(message.encode())
-        return cipher_text.hex()
+        if output_format == 'base64':
+            encoded_ciphertext = base64.b64encode(ciphertext)
+            return encoded_ciphertext.decode('utf-8')
+        elif output_format == 'hex':
+            encoded_ciphertext = ciphertext.hex()
+            return encoded_ciphertext
+        else:
+            raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
+
+    def decrypt_AESECB(self, encoded_ciphertext, key, input_format='base64'):
+        """
+        使用AES ECB模式解密数据，支持自定义key及输入格式
+        :param encoded_ciphertext: 经过编码的密文数据（str类型）
+        :param key: 自定义的密钥（bytes类型）
+        :param input_format: 输入格式，可选'base64'或'hex'（默认'base64'）
+        :return: 解密后的明文数据（bytes类型）
+        """
+        if input_format == 'base64':
+            ciphertext = base64.b64decode(encoded_ciphertext.encode('utf-8'))
+        elif input_format == 'hex':
+            ciphertext = bytes.fromhex(encoded_ciphertext)
+        else:
+            raise ValueError("Invalid input format. Supported formats are 'base64' and 'hex'.")
+
+        cipher = AES.new(key.encode(), AES.MODE_ECB)
+        padded_data = cipher.decrypt(ciphertext)
+        data = unpad(padded_data, AES.block_size)
+
+        return data.decode()
+
+    def encrypt_DESCBC(self, data, key, iv, output_format='base64'):
+        """
+        使用DES CBC模式加密数据，支持自定义key、iv及输出格式
+        :param data: 待加密的明文数据（bytes类型）
+        :param key: 自定义的密钥（bytes类型，长度必须为8字节）
+        :param iv: 自定义的初始化向量（bytes类型，长度必须为8字节）
+        :param output_format: 输出格式，可选'base64'或'hex'（默认'base64'）
+        :return: 根据指定格式编码后的加密密文（str类型）
+        """
+        if len(iv) != DES.block_size:
+            raise ValueError("DES key length must be 8 bytes and IV length must be 8 bytes.")
+
+        cipher = DES.new(key.encode(), DES.MODE_CBC, iv=iv.encode())
+        padded_data = pad(data.encode(), DES.block_size)
+        ciphertext = cipher.encrypt(padded_data)
+
+        if output_format == 'base64':
+            encoded_ciphertext = base64.b64encode(ciphertext)
+            return encoded_ciphertext.decode('utf-8')
+        elif output_format == 'hex':
+            encoded_ciphertext = ciphertext.hex()
+            return encoded_ciphertext
+        else:
+            raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
+
+    def decrypt_DESCBC(self, encoded_ciphertext, key, iv, input_format='base64'):
+        """
+        使用DES CBC模式解密数据，支持自定义key、iv及输入格式
+        :param encoded_ciphertext: 经过编码的密文数据（str类型）
+        :param key: 自定义的密钥（bytes类型，长度必须为8字节）
+        :param iv: 自定义的初始化向量（bytes类型，长度必须为8字节）
+        :param input_format: 输入格式，可选'base64'或'hex'（默认'base64'）
+        :return: 解密后的明文数据（bytes类型）
+        """
+        if len(iv) != DES.block_size:
+            raise ValueError("DES key length must be 8 bytes and IV length must be 8 bytes.")
+
+        if input_format == 'base64':
+            ciphertext = base64.b64decode(encoded_ciphertext.encode('utf-8'))
+        elif input_format == 'hex':
+            ciphertext = bytes.fromhex(encoded_ciphertext)
+        else:
+            raise ValueError("Invalid input format. Supported formats are 'base64' and 'hex'.")
+
+        cipher = DES.new(key.encode(), DES.MODE_CBC, iv=iv.encode())
+        padded_data = cipher.decrypt(ciphertext)
+        data = unpad(padded_data, DES.block_size)
+
+        return data.decode()
+
+    def encrypt_DESECB(self, data, key, output_format='base64'):
+        """
+        使用DES ECB模式加密数据，支持自定义key及输出格式
+        :param data: 待加密的明文数据（bytes类型）
+        :param key: 自定义的密钥（bytes类型，长度必须为8字节）
+        :param output_format: 输出格式，可选'base64'或'hex'（默认'base64'）
+        :return: 根据指定格式编码后的加密密文（str类型）
+        """
+        if len(key) != DES.key_size:
+            raise ValueError("DES key length must be 8 bytes.")
+
+        cipher = DES.new(key.encode(), DES.MODE_ECB)
+        padded_data = pad(data.encode(), DES.block_size)
+        ciphertext = cipher.encrypt(padded_data)
+
+        if output_format == 'base64':
+            encoded_ciphertext = base64.b64encode(ciphertext)
+            return encoded_ciphertext.decode('utf-8')
+
+        elif output_format == 'hex':
+            encoded_ciphertext = ciphertext.hex()
+            return encoded_ciphertext
+        else:
+            raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
+
+    def decrypt_DESECB(self, encoded_ciphertext, key, input_format='base64'):
+        """
+        使用DES ECB模式解密数据，支持自定义key及输入格式
+        :param encoded_ciphertext: 经过编码的密文数据（str类型）
+        :param key: 自定义的密钥（bytes类型，长度必须为8字节）
+        :param input_format: 输入格式，可选'base64'或'hex'（默认'base64'）
+        :return: 解密后的明文数据（bytes类型）
+        """
+        if len(key) != DES.key_size:
+            raise ValueError("DES key length must be 8 bytes.")
+
+        if input_format == 'base64':
+            ciphertext = base64.b64decode(encoded_ciphertext.encode('utf-8'))
+        elif input_format == 'hex':
+            ciphertext = bytes.fromhex(encoded_ciphertext)
+        else:
+            raise ValueError("Invalid input format. Supported formats are 'base64' and 'hex'.")
+
+        cipher = DES.new(key.encode(), DES.MODE_ECB)
+        padded_data = cipher.decrypt(ciphertext)
+        data = unpad(padded_data, DES.block_size)
+
+        return data.decode()
+
+    def encrypt_RSA(self, data, pubkey=None):
+        """
+        使用RSA加密数据。
+
+        参数:
+        - data: 待加密的字节串数据。
+        - pubkey: 公钥，默认情况下会生成一个具有指定模值n的新密钥对。
+        - n: RSA模数，默认值10001，注意此值在实际应用中应足够大以保证安全性。
+
+        返回:
+        - 加密后的数据（base64编码的字节串）。
+        """
+        if pubkey is None:
+            # 生成一个密钥对，虽然模值n被指定，但实际的PyCryptodome不直接支持这种方式，
+            # 这里仅为演示，实际应使用默认或更安全的密钥生成方式。
+            key = RSA.generate(1024)
+            print(key)  # 实际上应该生成足够长度的密钥，这里使用1024位作为示例
+        else:
+            key = RSA.import_key(pubkey)
+
+        cipher = PKCS1_OAEP.new(key)
+        encrypted_data = cipher.encrypt(data.encode())
+        return base64.b64encode(encrypted_data).decode()
+
+    def decrypt_RSA(self, encrypted_data, privkey):
+        """
+        使用RSA解密数据。
+
+        参数:
+        - encrypted_data: 已加密的Base64编码的字节串数据。
+        - privkey: 私钥，用于解密数据。
+
+        返回:
+        - 原始的明文字符串数据。
+        """
+        # 将接收到的Base64编码的加密数据解码回字节串
+        encrypted_data_bytes = base64.b64decode(encrypted_data)
+
+        # 导入私钥
+        key = RSA.import_key(privkey)
+
+        # 创建一个PKCS1_OAEP模式的解密器
+        cipher = PKCS1_OAEP.new(key)
+
+        # 解密数据
+        decrypted_data = cipher.decrypt(encrypted_data_bytes)
+
+        # 返回解密后的原始数据
+        return decrypted_data.decode()
 
     def encrypt_Base64(self, data):
         '''
@@ -773,7 +973,8 @@ class SpiderTools:
         使用示例:
         spidertool.encrypt_Base64(data)
         '''
-        return base64.b64encode(data)
+        encoded_data = base64.b64encode(str(data).encode())
+        return encoded_data.decode('utf-8')
 
     def encrypt_MD5(self, data):
         '''
@@ -787,7 +988,7 @@ class SpiderTools:
         '''
         md5_hash = hashlib.md5()
 
-        data_bytes = data.encode('utf-8')
+        data_bytes = str(data).encode('utf-8')
 
         md5_hash.update(data_bytes)
 
@@ -806,7 +1007,7 @@ class SpiderTools:
         spidertool.encrypt_SHA1(data)
         '''
         sha1 = hashlib.sha1()
-        sha1.update(data.encode())
+        sha1.update(str(data).encode())
         return sha1.hexdigest()
 
     def encrypt_SHA256(self, data):
@@ -820,7 +1021,7 @@ class SpiderTools:
         spidertool.encrypt_SHA256(data)
         '''
         sha256 = hashlib.sha256()
-        sha256.update(data.encode())
+        sha256.update(str(data).encode())
         return sha256.hexdigest()
 
     def encrypt_SHA512(self, data):
@@ -834,7 +1035,7 @@ class SpiderTools:
         spidertool.encrypt_SHA512(data)
         '''
         sha512 = hashlib.sha512()
-        sha512.update(data.encode())
+        sha512.update(str(data).encode())
         return sha512.hexdigest()
 
     def encrypt_SHA384(self, data):
@@ -847,40 +1048,46 @@ class SpiderTools:
         使用实例:
         spidertool.encrypt_SHA384(data)
         '''
-        hash_object = hashlib.sha384(data.encode())
+        hash_object = hashlib.sha384(str(data).encode())
         return hash_object.hexdigest()
 
-    def encrypt_HMAC(self, data, key):
-        '''
-        :param data: 待加密的数据
-        :param key: HMAC加密需要的key
-        :return: 经过HMAC加密后的数据
+    def encrypt_HMAC(self, data, key, digestmod='md5', output_format='base64'):
+        """
+        使用HMAC进行数据加密，并支持指定输出格式（Base64或Hex）。
 
-        此函数用于还原JS中HMAC算法加密
+        :param data: 待加密的数据 (str)
+        :param key: 加密密钥 (str)
+        :param digestmod: 加密模式，默认为 'md5'。可用选项包括 'md5', 'sha1', 'sha256' 等。
+        :param output_format: 输出格式，'base64' 或 'hex'，默认为 'base64'。
+        :return: 加密后的数据 (str)，根据指定的输出格式。
+        :raises ValueError: 如果提供了无效的输出格式或 digestmod。
+        """
 
-        使用实例:
-        spidertool.encrypt_HMAC(data, key)
-        '''
-        h = hmac.new(key, data, digestmod=SHA256)
-        return h.digest()
+        # 支持的摘要算法映射
+        supported_digests = {'md5': hashlib.md5, 'sha1': hashlib.sha1, 'sha256': hashlib.sha256,
+                             'sha384': hashlib.sha384, 'sha512': hashlib.sha512}
 
-    def encrypt_JWT(self, data, private_key, algorithm='RS256'):
-        '''
-        :param data: 待加密的数据
-        :param private_key: JWT加密需要的private_key
-        :param algorithm: 签名算法
-        :return: 签名后的JWT
+        # 验证digestmod是否有效
+        if digestmod not in supported_digests:
+            raise ValueError(f"Unsupported digestmod '{digestmod}'. Use one of {list(supported_digests.keys())}.")
 
-        此函数用于还原JS中JWT算法加密
+        # 验证输出格式
+        if output_format not in ['base64', 'hex']:
+            raise ValueError("Invalid output format. Use 'base64' or 'hex'.")
 
-        使用实例:
-        spidertool.encrypt_JWT(data, private_key)
-        '''
-        # 使用jwt库来生成JWT
-        token = jwt.encode(data, private_key, algorithm=algorithm)
-        return token
+        # 使用指定的摘要算法创建HMAC对象
+        hash_func = supported_digests[digestmod]
+        hmac_obj = hmac.new(key.encode(), data.encode(), hash_func)
 
-    def encrypt_PBKDF2(self, password, salt, iterations, key_length, hash_algorithm):
+        # 根据输出格式返回结果
+        if output_format == 'base64':
+            # 返回Base64编码的结果
+            return base64.b64encode(hmac_obj.digest()).decode('utf-8')
+        else:  # output_format == 'hex'
+            # 返回Hex格式的结果
+            return hmac_obj.hexdigest()
+
+    def encrypt_PBKDF2(self, password, salt, output_format='base64', *args, **kwargs):
         '''
         :param password: 要派生的密码（字节串）。
         :param salt: 随机生成的盐（字节串）。
@@ -895,6 +1102,11 @@ class SpiderTools:
                 spidertool.encrypt_PBKDF2(password, salt, iterations, key_length, hash_algorithm)
 
         '''
-        key = PBKDF2(password, salt, dkLen=key_length, count=iterations,
-                     prf=lambda p, s: hmac.new(p, s, getattr(hashlib, hash_algorithm)).digest())
-        return key
+        key = PBKDF2(password, salt.encode(), *args, **kwargs)
+        if output_format == 'base64':
+            base64_key = base64.b64encode(key).decode('utf-8')
+            return base64_key
+        elif output_format == 'hex':
+            return key.hex()
+        else:
+            raise ValueError("Invalid output format. Use 'base64' or 'hex'.")

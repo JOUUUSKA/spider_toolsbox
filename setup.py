@@ -27,5 +27,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires=['requests', 'opencv-python==4.3.0.38', 'ddddocr', 'pyexecjs', 'fake_useragent', 'loguru', 'lxml','pycryptodome','jwt']
+    install_requires=['requests', 'opencv-python==4.3.0.38', 'ddddocr', 'pyexecjs', 'fake_useragent', 'loguru', 'lxml','pycryptodome']
 )
