@@ -185,74 +185,75 @@ def test3:...
 加密类型中只有 **SHA系列，HMAC。PBKDF2** 的输出格式只能为hex固定格式  
 其他的加密类型都能 自行指定 输出格式为base64或者hex  
 
-**加密函数的形参中**  
-指定output_format='hex'则输出为hex返回值，
+**加密函数的 形参 中**  
+指定output_format='hex'则输出为hex返回值，  
 指定output_format='base64'则输出为base64返回值  
 
-**解密函数的形参中**指定input_format='hex'则输出为hex返回值  
-指定input_format='base64'则为base64返回值
+**解密函数的 形参 中**  
+指定input_format='hex'则输出为hex返回值  
+指定input_format='base64'则输出为base64返回值
 ### **使用示例**
 **1、AES系列**
 ```python  
-from spider_toolsbox.spidertools import SpiderTools
-spidertool = SpiderTools()    
+from cryptools import Cryptor
+cryptor = Cryptor()  
 
-spidertool.encrypt_AESCBC(data, key, iv)
-spidertool.decrypt_AESCBC(encoded_ciphertext, key, iv)
+cryptor.encrypt_AESCBC(data, key, iv)
+cryptor.decrypt_AESCBC(encoded_ciphertext, key, iv)
 
-spidertool.encrypt_AESECB(data, key)
-spidertool.decrypt_AESECB(encoded_ciphertext, key)
+cryptor.encrypt_AESECB(data, key)
+cryptor.decrypt_AESECB(encoded_ciphertext, key)
 ```  
 **2、DES系列**
 ```python  
-from spider_toolsbox.spidertools import SpiderTools
-spidertool = SpiderTools()    
+from cryptools import Cryptor
+cryptor = Cryptor()   
 
-spidertool.encrypt_DESCBC(data, key, iv)
-spidertool.decrypt_DESCBC(encoded_ciphertext, key, iv)
+cryptor.encrypt_DESCBC(data, key, iv)
+cryptor.decrypt_DESCBC(encoded_ciphertext, key, iv)
 
-spidertool.encrypt_DESECB(data, key)
-spidertool.decrypt_DESECB(encoded_ciphertext, key)
+cryptor.encrypt_DESECB(data, key)
+cryptor.decrypt_DESECB(encoded_ciphertext, key)
 ```  
 **3、RSA系列**
 ```python  
-from spider_toolsbox.spidertools import SpiderTools
-spidertool = SpiderTools()    
+from cryptools import Cryptor
+cryptor = Cryptor()   
 
-spidertool.encrypt_RSA(data, pubkey)
-spidertool.decrypt_RSA(data, privkey)
+cryptor.encrypt_RSA(data, pubkey)
+cryptor.decrypt_RSA(data, privkey)
 ```  
 **4、SHA系列**
 ```python  
-from spider_toolsbox.spidertools import SpiderTools
-spidertool = SpiderTools()    
+from cryptools import Cryptor
+cryptor = Cryptor()   
 
-spidertool.encrypt_MD5(data)
-spidertool.encrypt_SHA1(data)
-spidertool.encrypt_SHA256(data)
-spidertool.encrypt_SHA384(data)
-spidertool.encrypt_SHA512(data)
+cryptor.encrypt_MD5(data)
+cryptor.encrypt_SHA1(data)
+cryptor.encrypt_SHA256(data)
+cryptor.encrypt_SHA384(data)
+cryptor.encrypt_SHA512(data)
 ```  
 **5、BASE64**
 ```python  
-from spider_toolsbox.spidertools import SpiderTools
-spidertool = SpiderTools()    
+from cryptools import Cryptor
+cryptor = Cryptor()   
 
-spidertool.encrypt_Base64(data)
+cryptor.encrypt_Base64(data)
 ```  
 **6、HMAC**
 ```python  
-from spider_toolsbox.spidertools import SpiderTools
-spidertool = SpiderTools()    
+from cryptools import Cryptor
+cryptor = Cryptor()   
 
-spidertool.encrypt_HMAC(data, key, digestmod)
+cryptor.encrypt_HMAC(data, key, digestmod)
 ```  
 **7、PBKDF2**
 ```python  
-from spider_toolsbox.spidertools import SpiderTools
-spidertool = SpiderTools()    
+from cryptools import Cryptor
+cryptor = Cryptor()  
 
-spidertool.encrypt_PBKDF2(password, salt)
+cryptor.encrypt_PBKDF2(password, salt)
 ```  
 # 解答  
 
