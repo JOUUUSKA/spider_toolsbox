@@ -25,14 +25,14 @@ from lxml import etree
 class SpiderTools:
     def __init__(self):
         '''
-        进行请求头初始化设置
+        进行请求头,计数器初始化设置
         '''
-        self.headers = {'User-Agent': UserAgent().random}
+        self.headers = self.create_headers()
         self.image_count = 0
         self.txt_count = 0
         self.video_count = 0
 
-    def open_js(self, js):
+    def open_js(self, js_path):
         '''
         :param js: 需要打开的JS文件路径
         :return: 返回给编译好,可调用的JS环境
@@ -41,7 +41,7 @@ class SpiderTools:
         此函数用于方便使用者快速打开一个JS文件，
         并且返回一个 基于此JS文件 编译好的，可直接调用的JS环境
         '''
-        ctx = execjs.compile(open(js, 'r', encoding='utf8').read())
+        ctx = execjs.compile(open(js_path, 'r', encoding='utf8').read())
         return ctx
 
     def image_name(self):
@@ -80,7 +80,7 @@ class SpiderTools:
         self.video_count += 1
         return f"image_{self.video_count}"
 
-    def download_video(self, url, headers=None, data=None, params=None, name=None, type_=None, mode=None, **kwargs):
+    def download_video(self, url, headers=None, name=None, type_=None, mode=None, **kwargs):
         '''
         :param url: 需要下载的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -116,15 +116,15 @@ class SpiderTools:
             headers = self.headers
         if not os.path.exists('./Download_video'):
             os.mkdir('./Download_video')
-        response = requests.get(url, headers=headers, data=data, params=params, **kwargs)
+        response = requests.get(url, headers=headers, **kwargs)
         if response.status_code == 200:
             with  open(f"./Download_video/{name}.{type_}", mode) as f:
                 f.write(response.content)
-                print(f"{name}.{type_} 下载成功")
+                self.success(f"{name}.{type_} 下载成功")
         else:
-            print(f"{name}.{type_} 下载失败")
+            self.critical(f"{name}.{type_} 下载失败")
 
-    def download_img(self, url, headers=None, data=None, params=None, name=None, type_=None, mode=None, **kwargs):
+    def download_img(self, url, headers=None, name=None, type_=None, mode=None, **kwargs):
         '''
         :param url: 需要下载的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -151,7 +151,7 @@ class SpiderTools:
         并在此文件夹下新建一个Download_image文件夹，对下载的 图片 进行持久化存储
         '''
         if type_ is None:
-            type_ = 'jpg'
+            type_ = 'jpeg'
         if name is None:
             name = str(self.image_name())
         if mode is None:
@@ -160,13 +160,13 @@ class SpiderTools:
             headers = self.headers
         if not os.path.exists('./Download_img'):
             os.mkdir('./Download_img')
-        response = requests.get(url, headers=headers, data=data, params=params, **kwargs)
+        response = requests.get(url, headers=headers, **kwargs)
         if response.status_code == 200:
             with  open(f"./Download_img/{name}.{type_}", mode) as f:
                 f.write(response.content)
-                print(f"{name}.{type_} 下载成功")
+                self.success(f"{name}.{type_} 下载成功")
         else:
-            print(f"{name}.{type_} 下载失败")
+            self.critical(f"{name}.{type_} 下载失败")
 
     def download_character(self, txt, name=None, type_=None, mode=None):
         '''
@@ -214,7 +214,7 @@ class SpiderTools:
         with open(img_path, 'rb') as f:
             img_bytes = f.read()
         res = ocr.classification(img_bytes)
-        print('识别出的验证码为：' + res)
+        self.success('识别出的验证码为：' + res)
         return res
 
     def ocr_slide_with_hole(self, bgimg_path, fullpage_path):
@@ -234,17 +234,16 @@ class SpiderTools:
             background_bytes = f.read()
         img = cv2.imread(bgimg_path)
         res = slide.slide_comparison(target_bytes, background_bytes)
-        print(res)
+        self.success(res)
         return res
 
     def ocr_slide_with_clean(self, bgimg_path, fullpage_path):
-        '''小滑块为单独的png图片，背景是透明图'''
         '''
         :param imgpath: 需要识别的背景图片路径
         :param fullpage_path: 需要识别的全图片路径
         :return: 图片中显示的验证码缺口坐标
-        
-        
+
+
         此函数用于识别 小滑块为单独的png图片，背景是透明图的滑块图，
         返回图片中显示的滑块图缺口坐标
         '''
@@ -254,7 +253,7 @@ class SpiderTools:
         with open(fullpage_path, 'rb') as f:
             background_bytes = f.read()
         res = det.slide_match(target_bytes, background_bytes)
-        print(res, res.get('target')[0])
+        self.success(res, res.get('target')[0])
         return res
 
     def ocr_click_choose(self, test_img_path, result_img_path):
@@ -271,8 +270,8 @@ class SpiderTools:
         with open(test_img_path, 'rb') as f:
             image = f.read()
         poses = det.detection(image)
-        print(poses)
-        print(poses[0][0], poses[1][0], poses[2][0])
+        self.success(poses)
+        self.success(poses[0][0], poses[1][0], poses[2][0])
         im = cv2.imread(test_img_path)
         for box in poses:
             x1, y1, x2, y2 = box
@@ -330,12 +329,24 @@ class SpiderTools:
         '''
         if pool is None:
             pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
-        result = ''
-        for i in range(length):
-            result += random.choice(pool)
-        return result
+        return ''.join(random.choice(pool) for _ in range(length))
 
-    def get(self, url, headers=None, data=None, params=None, **kwargs):
+    def get_proxies(self,proxy_address: str):
+        """
+        参数:
+        - proxy_address: 包含代理服务器地址和端口的字符串，格式为 'http://ip:port' 或 'https://ip:port'
+
+        返回:
+        - proxies: 一个字典，包含配置好的HTTP和HTTPS代理
+
+        根据提供的代理服务器地址和端口，返回配置好的代理字典。
+        """
+        return {
+            'http': 'http://' + proxy_address,
+            'https': 'https://' + proxy_address
+        }
+
+    def get(self, url, headers=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -348,9 +359,9 @@ class SpiderTools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request('get', url, headers=headers, params=params, data=data, **kwargs)
+        return requests.request('get', url, headers=headers, **kwargs)
 
-    def options(self, url, headers=None, data=None, params=None, **kwargs):
+    def options(self, url, headers=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -363,9 +374,9 @@ class SpiderTools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("options", url, headers=headers, data=data, params=params, **kwargs)
+        return requests.request("options", url, headers=headers, **kwargs)
 
-    def head(self, url, headers=None, data=None, params=None, **kwargs):
+    def head(self, url, headers=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -378,9 +389,9 @@ class SpiderTools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("head", url, headers=headers, data=data, params=params, **kwargs)
+        return requests.request("head", url, headers=headers, **kwargs)
 
-    def post(self, url, headers=None, data=None, params=None, **kwargs):
+    def post(self, url, headers=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -393,9 +404,9 @@ class SpiderTools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("post", url, headers=headers, data=data, json=json, params=params, **kwargs)
+        return requests.request("post", url, headers=headers, **kwargs)
 
-    def put(self, url, headers=None, data=None, params=None, **kwargs):
+    def put(self, url, headers=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -408,9 +419,9 @@ class SpiderTools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("put", url, headers=headers, data=data, params=params, **kwargs)
+        return requests.request("put", url, headers=headers, **kwargs)
 
-    def patch(self, url, headers=None, data=None, params=None, **kwargs):
+    def patch(self, url, headers=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -423,9 +434,9 @@ class SpiderTools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("patch", url, headers=headers, data=data, params=params, **kwargs)
+        return requests.request("patch", url, headers=headers, **kwargs)
 
-    def delete(self, url, headers=None, data=None, params=None, **kwargs):
+    def delete(self, url, headers=None, **kwargs):
         '''
         :param url: 需要请求的网址
         :param headers: 请求头，如果没有指定，则默认使用FakeUA库进行创建使用
@@ -438,7 +449,7 @@ class SpiderTools:
         '''
         if headers is None:
             headers = self.headers
-        return requests.request("delete", url, headers=headers, data=data, params=params, **kwargs)
+        return requests.request("delete", url, headers=headers, **kwargs)
 
     def re(self, res, str_1, str_2):
         '''
@@ -474,7 +485,7 @@ class SpiderTools:
         tree = etree.HTML(res)
         return tree.xpath(x_path)
 
-    def rebuidtext(self, res: str):
+    def rebuild_text(self, res: str):
         '''
         :param res: 原始HTML字符串
         :return: 重构后的HTML字符串
@@ -493,7 +504,7 @@ class SpiderTools:
         如果调用此函数对response进行重构后，仍然不能打印页面，请另寻办法解决。
 
         笔者在此列出两条本人常用的解决办法，可供各位参考:
-        1、调用此方法对response进行重构;
+        1、调用rebuild_text方法对response进行重构;
         2、在Python文件最上方加入如下代码:
             import sys,io
             sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='gb18030')
@@ -605,8 +616,7 @@ class SpiderTools:
         '''
         logger.critical(msg, *args, **kwargs)
 
-    @staticmethod
-    def catch_bug(func):
+    def catch_bug(self, func):
         '''
         :param func: 需要传入的函数
         :return: 传入的原函数
@@ -629,12 +639,11 @@ class SpiderTools:
                 result = func(*args, **kwargs)
                 return result
             except Exception as e:
-                print(f"{func.__name__} 抛出异常，异常已捕获，内容如下:\n {e}")
+                self.warning(f"{func.__name__} 抛出异常，异常已捕获，内容如下:\n {e}")
 
         return wrapper
 
-    @staticmethod
-    def test_time(func):
+    def test_time(self, func):
         '''
         :param func: 需要传入的函数
         :return: 传入的原函数所耗费的时间
@@ -654,13 +663,12 @@ class SpiderTools:
             since = time.time()
             result = func()
             time_elapsed = time.time() - since
-            print(func.__name__, '函数在 {:.0f}m {:.0f}s 内完成'.format(time_elapsed // 60, time_elapsed % 60))
+            self.info('{}函数在 {:.0f}m {:.0f}s 内完成'.format(func.__name__, time_elapsed // 60, time_elapsed % 60))
             return result
 
         return target()
 
-    @staticmethod
-    def retry(max_attempts: int, delay):
+    def retry(self, max_attempts: int, delay):
         '''
         :param max_attempts: 需要重试的最大次数
         :param delay: 每次重试的时间间隔
@@ -703,11 +711,11 @@ class SpiderTools:
                     try:
                         return func(*args, **kwargs)
                     except Exception as e:
-                        print(f"捕获到{func.__name__}异常，将在 {delay} 秒后进行第 {attempts + 1} 次重试")
+                        self.warning(f"捕获到{func.__name__}异常，将在 {delay} 秒后进行第 {attempts + 1} 次重试")
                         attempts += 1
                         time.sleep(delay)
                         exception = e
-                print(f'{func.__name__}异常情况如下\n{exception}')
+                self.warning(f'{func.__name__}异常情况如下:\n{exception}')
                 raise Exception("已达到所设置的{}次最大重试次数".format(max_attempts))
 
             return wrapper

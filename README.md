@@ -35,17 +35,50 @@ spidertool = SpiderTools()
 spidertool.ocr_img(img_path)
 ```
 返回给图片中显示的验证码  
+<br>-------------------------------------------------------------------------------------------------------------------------------------------------------<br>
 
-**2、识别滑块验证码**
+**2、识别滑块验证码**  
+
+一张图为带坑位的原图，如下图
+
+![Test](https://cdn.wenanzhe.com/img/bg.jpg) 
+
+一张图为原图，如下图 
+
+![Test](https://cdn.wenanzhe.com/img/fullpage.jpg) 
 ```python  
 from spider_toolsbox.spidertools import SpiderTools
 spidertool = SpiderTools()  
   
 spidertool.ocr_slide_with_hole(bgimg_path, fullpage_path)
-```
-返回图片中显示的滑块图缺口坐标  
+```    
+返回图片中显示的滑块图缺口坐标
+<br>-------------------------------------------------------------------------------------------------------------------------------------------------------<br>
+小滑块为单独的png图片，背景是透明图，如下图
 
-**3、识别点选验证码**
+![Test](https://cdn.wenanzhe.com/img/b.png) 
+
+然后背景为带小滑块坑位的，如下图 
+
+![Test](https://cdn.wenanzhe.com/img/a.png) <br>
+```python  
+from spider_toolsbox.spidertools import SpiderTools
+spidertool = SpiderTools()  
+  
+spidertool.ocr_slide_with_clean(bgimg_path, fullpage_path)
+```   
+返回图片中显示的滑块图缺口坐标
+<br>-------------------------------------------------------------------------------------------------------------------------------------------------------<br>
+
+**3、识别点选验证码**  
+
+![Test](https://cdn.wenanzhe.com/img/0446fe794381489f90719d5e0506f2da.jpg) 
+
+![Test](https://cdn.wenanzhe.com/img/6175e944c1dc408a89aabe4f7fc07fca.jpg) 
+
+![Test](https://cdn.wenanzhe.com/img/20211226135747.png) 
+
+![Test](https://cdn.wenanzhe.com/img/f34390d4911c45ce9058dc2e7e9d847a.jpg) 
 ```python  
 from spider_toolsbox.spidertools import SpiderTools
 spidertool = SpiderTools()    
@@ -175,14 +208,14 @@ def test1:...
 @spidertool.test_time
 def test2:...
 
-@spidertool.retry(max_attempts: int, delay)
+@spidertool.retry(max_attempts, delay)
 def test3:...
 ```  
 
 ## 九、常用加密类型  
 ### **使用说明**:
 加密模式的填充类型统一设定为**PKCS7**  
-加密类型中只有 **SHA系列，HMAC。PBKDF2** 的输出格式只能为hex固定格式，**RSA**固定为base64  
+加密类型中只有 **SHA系列，HMAC。PBKDF2** 的输出格式只能为hex固定格式  
 其他的加密类型都能 自行指定 输出格式为base64或者hex  
 
 **加密函数的 形参 中**  

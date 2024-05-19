@@ -221,10 +221,7 @@ class Cryptor:
         - 加密后的数据（base64编码的字节串）。
         """
         if pubkey is None:
-            # 生成一个密钥对，虽然模值n被指定，但实际的PyCryptodome不直接支持这种方式，
-            # 这里仅为演示，实际应使用默认或更安全的密钥生成方式。
-            key = RSA.generate(1024)
-            print(key)  # 实际上应该生成足够长度的密钥，这里使用1024位作为示例
+            raise ValueError("Public key must be provided for RSA encryption")
         else:
             key = RSA.import_key(pubkey)
 
