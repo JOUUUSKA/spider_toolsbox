@@ -229,7 +229,7 @@ def test3:...
 ### **使用示例**
 **1、AES系列**
 ```python  
-from cryptools import Cryptor
+from spider_toolsbox.cryptools import Cryptor
 cryptor = Cryptor()  
 
 cryptor.encrypt_AESCBC(data, key, iv)
@@ -240,7 +240,7 @@ cryptor.decrypt_AESECB(encoded_ciphertext, key)
 ```  
 **2、DES系列**
 ```python  
-from cryptools import Cryptor
+from spider_toolsbox.cryptools import Cryptor
 cryptor = Cryptor()   
 
 cryptor.encrypt_DESCBC(data, key, iv)
@@ -251,7 +251,7 @@ cryptor.decrypt_DESECB(encoded_ciphertext, key)
 ```  
 **3、RSA系列**
 ```python  
-from cryptools import Cryptor
+from spider_toolsbox.cryptools import Cryptor
 cryptor = Cryptor()   
 
 cryptor.encrypt_RSA(data, pubkey)
@@ -259,7 +259,7 @@ cryptor.decrypt_RSA(data, privkey)
 ```  
 **4、SHA系列**
 ```python  
-from cryptools import Cryptor
+from spider_toolsbox.cryptools import Cryptor
 cryptor = Cryptor()   
 
 cryptor.encrypt_MD5(data)
@@ -270,21 +270,21 @@ cryptor.encrypt_SHA512(data)
 ```  
 **5、BASE64**
 ```python  
-from cryptools import Cryptor
+from spider_toolsbox.cryptools import Cryptor
 cryptor = Cryptor()   
 
 cryptor.encrypt_Base64(data)
 ```  
 **6、HMAC**
 ```python  
-from cryptools import Cryptor
+from spider_toolsbox.cryptools import Cryptor
 cryptor = Cryptor()   
 
 cryptor.encrypt_HMAC(data, key, digestmod)
 ```  
 **7、PBKDF2**
 ```python  
-from cryptools import Cryptor
+from spider_toolsbox.cryptools import Cryptor
 cryptor = Cryptor()  
 
 cryptor.encrypt_PBKDF2(password, salt)
