@@ -15,12 +15,3 @@ def open_js(js: str, path: bool = True):
     else:
         ctx = execjs.compile(js)
     return ctx
-
-
-def generate_name(value: str):
-    """
-    生成名称，根据调用次数生成
-
-    :param value: _description_
-    """
-    pass
