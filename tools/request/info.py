@@ -32,3 +32,13 @@ def create_random_str(self, length=16, pool=None):
     for i in range(length):
         result += random.choice(pool)
     return result
+
+
+def create_headers(self):
+    """
+    :return: 随机请求头
+
+
+    此函数用于创建一个随机，常用的请求头
+    """
+    return {"User-Agent": UserAgent().random}

@@ -5,6 +5,7 @@ __all__ = [
     "headers",
     "create_timestamp",
     "create_random_str",
+    "create_headers",
     "get",
     "options",
     "head",
