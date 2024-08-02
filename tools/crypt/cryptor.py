@@ -1,14 +1,44 @@
+import base64
+import hashlib
+import hmac
+
 from Crypto.Cipher import AES
 from Crypto.Cipher import DES
 from Crypto.Cipher import PKCS1_OAEP
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.PublicKey import RSA
 from Crypto.Util.Padding import pad, unpad
-import hashlib
-import hmac
-import base64
 
-class Cryptor:
+
+class Base64Encoder:
+    def encrypt_Base64(self, data):
+        '''
+        :param data: 待加密的数据
+        :return: 经过base64编码转换后的数据
+
+        此函数用于还原JS中base64编码转换
+
+        使用示例:
+        spidertool.encrypt_Base64(data)
+        '''
+        encoded_data = base64.b64encode(str(data).encode())
+        return encoded_data.decode('utf-8')
+
+    def decrypt_Base64(self, encoded_data):
+        '''
+        :param encoded_data: 经过base64编码的数据
+        :return: 原始数据
+
+        此函数用于还原经过base64编码的数据回到其原始格式
+
+        使用示例:
+        spidertool.decrypt_Base64(encoded_data)
+        '''
+        decoded_data = base64.b64decode(encoded_data.encode('utf-8'))
+        return decoded_data.decode('utf-8')
+
+
+class AESCipher:
     def encrypt_AESCBC(self, data, key, iv, output_format='base64'):
         """
         使用AES CBC模式加密数据，支持自定义key、iv及输出格式
@@ -101,6 +131,8 @@ class Cryptor:
 
         return data.decode()
 
+
+class DESCipher:
     def encrypt_DESCBC(self, data, key, iv, output_format='base64'):
         """
         使用DES CBC模式加密数据，支持自定义key、iv及输出格式
@@ -200,6 +232,8 @@ class Cryptor:
 
         return data.decode()
 
+
+class RSACipher:
     def encrypt_RSA(self, data, pubkey=None):
         """
         使用RSA加密数据。
@@ -247,32 +281,8 @@ class Cryptor:
         # 返回解密后的原始数据
         return decrypted_data.decode()
 
-    def encrypt_Base64(self, data):
-        '''
-        :param data: 待加密的数据
-        :return: 经过base64编码转换后的数据
 
-        此函数用于还原JS中base64编码转换
-
-        使用示例:
-        spidertool.encrypt_Base64(data)
-        '''
-        encoded_data = base64.b64encode(str(data).encode())
-        return encoded_data.decode('utf-8')
-
-    def decrypt_Base64(self, encoded_data):
-        '''
-        :param encoded_data: 经过base64编码的数据
-        :return: 原始数据
-
-        此函数用于还原经过base64编码的数据回到其原始格式
-
-        使用示例:
-        spidertool.decrypt_Base64(encoded_data)
-        '''
-        decoded_data = base64.b64decode(encoded_data.encode('utf-8'))
-        return decoded_data.decode('utf-8')
-
+class SHACipher:
     def encrypt_MD5(self, data):
         '''
         :param data: 待加密的数据

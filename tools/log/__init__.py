@@ -5,4 +5,6 @@ __all__ = [
     "debug",
     "warning",
     "error",
+    "success",
+    "critical",
 ]
