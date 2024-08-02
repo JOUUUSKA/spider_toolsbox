@@ -3,7 +3,6 @@ import os
 import requests
 import tools
 
-
 def download_video(url, headers=None, data=None, params=None, name=None, type_=None, mode=None, **kwargs):
     """
     :param url: 需要下载的网址
@@ -40,13 +39,13 @@ def download_video(url, headers=None, data=None, params=None, name=None, type_=N
         headers = tools.headers
     if not os.path.exists("./Download_video"):
         os.mkdir("./Download_video")
-    response = requests.get(url, headers=headers, data=data, params=params, **kwargs)
+    response = tools.get(url, headers=headers, data=data, params=params, **kwargs)
     if response.status_code == 200:
         with open(f"./Download_video/{name}.{type_}", mode) as f:
-            f.write(response.content)
-            print(f"{name}.{type_} 下载成功")
+            f.write(response.content)  # type:ignore
+            tools.success(f"{name}.{type_} 下载成功")
     else:
-        print(f"{name}.{type_} 下载失败")
+        tools.critical(f"{name}.{type_} 下载失败")
 
 
 def download_img(url, headers=None, data=None, params=None, name=None, type_=None, mode=None, **kwargs):
@@ -85,13 +84,13 @@ def download_img(url, headers=None, data=None, params=None, name=None, type_=Non
         headers = tools.headers
     if not os.path.exists("./Download_img"):
         os.mkdir("./Download_img")
-    response = requests.get(url, headers=headers, data=data, params=params, **kwargs)
+    response = tools.get(url, headers=headers, data=data, params=params, **kwargs)
     if response.status_code == 200:
         with open(f"./Download_img/{name}.{type_}", mode) as f:
-            f.write(response.content)
-            print(f"{name}.{type_} 下载成功")
+            f.write(response.content)  # type:ignore
+            tools.success(f"{name}.{type_} 下载成功")
     else:
-        print(f"{name}.{type_} 下载失败")
+        tools.critical(f"{name}.{type_} 下载失败")
 
 
 def download_character(txt, name=None, type_=None, mode=None):

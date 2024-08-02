@@ -1,5 +1,4 @@
-import requests
-
+from requests import request
 import tools
 
 
@@ -16,7 +15,7 @@ def get(url, headers=None, data=None, params=None, **kwargs):
     """
     if headers is None:
         headers = tools.headers
-    return requests.request("get", url, headers=headers, params=params, data=data, **kwargs)
+    return request("get", url, headers=headers, params=params, data=data, **kwargs)
 
 
 def options(url, headers=None, data=None, params=None, **kwargs):
@@ -32,7 +31,7 @@ def options(url, headers=None, data=None, params=None, **kwargs):
     """
     if headers is None:
         headers = tools.headers
-    return requests.request("options", url, headers=headers, data=data, params=params, **kwargs)
+    return request("options", url, headers=headers, data=data, params=params, **kwargs)
 
 
 def head(url, headers=None, data=None, params=None, **kwargs):
@@ -48,7 +47,7 @@ def head(url, headers=None, data=None, params=None, **kwargs):
     """
     if headers is None:
         headers = tools.headers
-    return requests.request("head", url, headers=headers, data=data, params=params, **kwargs)
+    return request("head", url, headers=headers, data=data, params=params, **kwargs)
 
 
 def post(url, headers=None, data=None, json=None, params=None, **kwargs):
@@ -64,7 +63,7 @@ def post(url, headers=None, data=None, json=None, params=None, **kwargs):
     """
     if headers is None:
         headers = tools.headers
-    return requests.request("post", url, headers=headers, data=data, json=json, params=params, **kwargs)
+    return request("post", url, headers=headers, data=data, json=json, params=params, **kwargs)
 
 
 def put(url, headers=None, data=None, params=None, **kwargs):
@@ -80,7 +79,7 @@ def put(url, headers=None, data=None, params=None, **kwargs):
     """
     if headers is None:
         headers = tools.headers
-    return requests.request("put", url, headers=headers, data=data, params=params, **kwargs)
+    return request("put", url, headers=headers, data=data, params=params, **kwargs)
 
 
 def patch(url, headers=None, data=None, params=None, **kwargs):
@@ -96,7 +95,7 @@ def patch(url, headers=None, data=None, params=None, **kwargs):
     """
     if headers is None:
         headers = tools.headers
-    return requests.request("patch", url, headers=headers, data=data, params=params, **kwargs)
+    return request("patch", url, headers=headers, data=data, params=params, **kwargs)
 
 
 def delete(url, headers=None, data=None, params=None, **kwargs):
@@ -112,4 +111,4 @@ def delete(url, headers=None, data=None, params=None, **kwargs):
     """
     if headers is None:
         headers = tools.headers
-    return requests.request("delete", url, headers=headers, data=data, params=params, **kwargs)
+    return request("delete", url, headers=headers, data=data, params=params, **kwargs)

@@ -34,7 +34,7 @@ def create_random_str(length=16, pool=None):
     return result
 
 
-def create_headers(self):
+def create_headers():
     """
     :return: 随机请求头
 
