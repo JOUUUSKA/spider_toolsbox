@@ -7,4 +7,3 @@ chmod +x install_requirements.sh
 
 ./install_requirements.sh
 ```
-
