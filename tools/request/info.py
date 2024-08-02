@@ -15,7 +15,7 @@ def create_timestamp():
     return round(time.time() * 1000)
 
 
-def create_random_str(self, length=16, pool=None):
+def create_random_str(length=16, pool=None):
     """
     :param length: 指定需要返回的random_str个数
     :param pool: 指定random_str的pool范围
