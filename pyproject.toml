@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["ethan.huang <ethan.huang@rccchina.com.cn>"]
 readme = "README.md"
-
 [tool.poetry.dependencies]
 python = "^3.10"
 certifi = "=2024.7.4"
