@@ -1,9 +1,15 @@
 # 安装指南 
 
 ## 1、安装依赖
+pip安装  
 ```python  
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python==4.3.0.38 
 ```
+poetry进行依赖安装  
+```python  
+poetry install
+```
+拉取源码  
 ```python  
 pip install git+https://github.com/JOUUUSKA/spider_toolsbox.git
 ```
