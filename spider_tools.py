@@ -586,7 +586,6 @@ class SpiderTools:
         '''
         :param msg: 需要在控制台输出的数据,输出格式为WARING
 
-
         此函数用于在控制台输出的数据,输出格式为WARING
         '''
         logger.warning(msg, *args, **kwargs)

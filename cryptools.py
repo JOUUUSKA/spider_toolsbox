@@ -25,6 +25,7 @@ class Cryptor:
         :param iv: 自定义的初始化向量（bytes类型，长度必须为16字节）
         :param output_format: 输出格式，可选'base64'或'hex'（默认'base64'）
         :return: 根据指定格式编码后的加密密文（str类型）
+
         """
         if len(iv) != AES.block_size:
             raise ValueError("IV length must be 16 bytes")
