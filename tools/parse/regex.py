@@ -1,7 +1,7 @@
 import re
 
 
-def regex(self, res, str_1, str_2):
+def regex(res, str_1, str_2):
     """
     :param res: 原始内容 或 原始响应
     :param str_1: 第一部分的分割范围

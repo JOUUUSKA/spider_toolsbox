@@ -17,7 +17,7 @@ def open_js(js: str, path: bool = True):
     return ctx
 
 
-def rebuidtext(self, res: str):
+def rebuidtext(res: str):
     """
     :param res: 原始HTML字符串
     :return: 重构后的HTML字符串
