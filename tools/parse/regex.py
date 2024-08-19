@@ -1,22 +1,24 @@
 import re
 
 
-def regex(res, str_1, str_2):
+def html_find_specific_string(text: str, params: str = ""):
     """
-    :param res: 原始内容 或 原始响应
-    :param str_1: 第一部分的分割范围
-    :param str_2: 第二部分的分割范围
-    :return: 分割范围之间的所有字符串
+    使用re.search，正则解析html文本
+    :param text: 正则文本
+    :param params: 需要替换的字符串
+    :return:
 
+    example：
+        raw_text = "onclick="window.open('/njweb/zbjh/20240801/9fc5b186-d2ef-4e41-805f-6f4103df9f52.html');"
+        new_text = html_find_specific_string(text, "window.open('{}')")
+        print(new_text) => /njweb/zbjh/20240801/9fc5b186-d2ef-4e41-805f-6f4103df9f52.html
 
-    此函数用于返回一个列表，
-    列表中的元素为 第一个 符合给定范围条件 之间的字符串
-
-    使用实例:
-    a = 123aaa456bbb456ccc456
-    print(spider_tools().re(a,'123','456')) ==> aaa
-    """
-
-    pattern = re.compile(r"{}(.*?){}".format(re.escape(str_1), re.escape(str_2)))
-    values = re.findall(pattern, res)
-    return values
+    """  # noqa: E501
+    pattern = "(.*?)".join([re.escape(s) for s in params.split("{}")])
+    values = re.search(pattern, text)
+    if values and len(values.groups()) == 1:
+        return values.group(1)
+    elif values and len(values.groups()) > 1:
+        return values.groups()
+    else:
+        return None
