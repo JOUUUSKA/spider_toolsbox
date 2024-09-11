@@ -59,3 +59,12 @@ def critical(msg, *args, **kwargs):
     此函数用于在控制台输出的数据,输出格式为CRITICAL
     '''
     logger.critical(msg, *args, **kwargs)
+
+def exception(msg, *args, **kwargs):
+    '''
+    :param msg: 需要在控制台输出的数据,输出格式为EXCEPTION
+
+
+    此函数用于在控制台输出的数据,输出格式为EXCEPTION
+    '''
+    logger.exception(msg, *args, **kwargs)

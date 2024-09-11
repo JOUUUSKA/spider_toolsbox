@@ -1,4 +1,4 @@
-from tools.file import image_name, txt_name, video_name
+from tools.utils.name import image_name, txt_name, video_name
 
 
 def test_generate_name():
