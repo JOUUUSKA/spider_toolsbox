@@ -2,8 +2,6 @@ import random
 import time
 from fake_useragent import UserAgent
 
-headers = {"User-Agent": UserAgent().random}
-
 
 def create_timestamp():
     """

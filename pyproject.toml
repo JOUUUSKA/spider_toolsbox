@@ -2,39 +2,131 @@
 name = "spider-toolsbox"
 version = "0.1.0"
 description = ""
-authors = ["ethan.huang <ethan.huang@rccchina.com.cn>"]
 readme = "README.md"
+repository = "https://github.com/JOOOUSKA/spider_toolsbox"
+authors = ["Ethan.Huang"]
+packages = [
+    { include = "packages" },
+]
+
+[tool.poetry.scripts]
+gen = "packages.scrapy_spiders.commands.genspider:gen_spider"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-certifi = "=2024.7.4"
-charset-normalizer = "=3.3.2"
-colorama = "=0.4.6"
-coloredlogs = "=15.0.1"
-fake-useragent = "=1.5.1"
-flatbuffers = "=24.3.25"
-humanfriendly = "=10.0"
-idna = "=3.7"
-loguru = "=0.7.2"
-lxml = "=5.2.2"
-mpmath = "=1.3.0"
-numpy = "=1.26.4"
-onnxruntime = "=1.18.1"
-opencv-python = "=4.10.0.84"
-opencv-python-headless = "=4.10.0.84"
-packaging = "=24.1"
-pillow = "=10.4.0"
-protobuf = "=5.27.2"
-pycryptodome = "=3.20.0"
-pyexecjs = "=1.5.1"
-pyreadline3 = "=3.4.1"
-requests = "=2.32.3"
-six = "=1.16.0"
-sympy = "=1.13.1"
-urllib3 = "=2.2.2"
-win32-setctime = "=1.1.0"
+Scrapy = "^2.7.0"
+aliyun-python-sdk-core = "^2.13.36"
+aliyun-python-sdk-kms = "^2.16.0"
+oss2 = "^2.16.0"
+lxml = "^4.9.1"
+arrow = "^1.2.2"
+Twisted = "21.7.0"
+setuptools = "^65.3.0"
+webdriver-manager = "^3.8.3"
+PyYAML = "^6.0"
+dateparser = "^1.1.1"
+pyOpenSSL = "^22.1.0"
+loguru = "^0.6.0"
+playwright = { extras = ["all"], version = "^1.32.1" }
+scrapy-playwright = "^0.0.27"
+pyexecjs = "^1.5.1"
+jinja2 = "^3.1.2"
+number-parser = "^0.3.0"
+price-parser = "^0.3.4"
+pypdf = "^3.2.1"
+treq = "^22.2.0"
+pymongo = "3.13.0"
+#crawlab-sdk = "^0.6.0.post11"
+txmongo = "^23.0.0"
+pillow = "^10.0.0"
+numpy = "^1.24.3"
+opencv-python = "4.6.0.66"
+fonttools = "^4.53.0"
 
+[tool.poetry.group.dev.dependencies]
+pytest = ">=6.2.5,<7.0.0"
+pre-commit = "^3.0.1"
+click = "^8.1.3"
+vcrpy = "^4.2.1"
+pydantic = "^1.10.4"
+rocketry = "^2.5.1"
+pika = "^1.3.1"
+black = "^23.3.0"
+pandas = "^2.2.2"
+tqdm = "^4.66.2"
+matplotlib = "^3.9.0"
+paddleocr = "^2.7.3"
+paddlepaddle = "^2.6.1"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=1.0.0", "setuptools", "pip"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+line-length = 120
+
+# Assume Python 3.10.
+target-version = "py310"
+
+[tool.ruff.lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.ruff.lint]
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
+unfixable = []
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # pyflakes
+    "I", # isort
+    "C", # flake8-comprehensions
+    "B", # flake8-bugbear
+]
+ignore = []
+
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403", "E501"]
+"main.py" = ["E501"]
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
