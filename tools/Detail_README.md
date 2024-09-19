@@ -148,13 +148,14 @@ chrome_ua = ua_pool.chrome
 firefox_ua = ua_pool.firefox
 ```  
 
-**5、快速通过xpath获取元素链接**
-`extract_link_by_response_xpath`传入的`response`，  
-必须是`spider_toolsbox`里面的`create_request`，  
+**5、快速通过xpath获取元素链接**  
+`extract_link_by_response_xpath`传入的`response`，   
+必须是`spider_toolsbox`里面的`create_request`，   
 或者是`scrapy`里面的`response`，  
 否则报错！  
 
 **create_request**用法见: **四、发送各类请求**  
+  
 ```python  
 from spider_toolsbox.tools.request.client import create_request
 from spider_toolsbox.tools.link_extractors.html_response import extract_link_by_response_xpath
