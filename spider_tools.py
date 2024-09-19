@@ -17,7 +17,9 @@ import requests
 import time
 from fake_useragent import UserAgent
 from loguru import logger
-from lxml import etree
+from scrapy import Selector
+
+from tools import create_default_headers
 
 
 class SpiderTools:
@@ -25,7 +27,7 @@ class SpiderTools:
         '''
         进行请求头初始化设置
         '''
-        self.headers = {'User-Agent': UserAgent().random}
+        self.headers = {'User-Agent': create_default_headers()}
 
     def open_js(self, js):
         '''
@@ -484,7 +486,7 @@ class SpiderTools:
         使用XPATH进行元素定位，
         并且返回定位到的元素
         '''
-        tree = etree.HTML(res)
+        tree = Selector(res)
         return tree.xpath(x_path)
 
     def rebuidtext(self, res: str):

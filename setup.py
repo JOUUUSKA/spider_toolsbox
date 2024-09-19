@@ -29,6 +29,7 @@ setuptools.setup(
     python_requires='>=3.10',
     install_requires=[
         'requests',
+        'httpx',
         'opencv-python==4.3.0.38',
         'ddddocr',
         'pyexecjs',
@@ -44,6 +45,5 @@ setuptools.setup(
         'parsel',
         'number_parser',
         'price_parser',
-        ''
     ]
 )

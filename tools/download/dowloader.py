@@ -1,5 +1,3 @@
-import os
-
 import tools
 from link_extractors.html_response import extract_text_by_response_xpath
 from utils.url import is_attachment_href

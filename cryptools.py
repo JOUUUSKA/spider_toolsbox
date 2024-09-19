@@ -8,7 +8,7 @@
 '''
 from Crypto.Cipher import AES
 from Crypto.Cipher import DES
-from Crypto.Cipher import PKCS1_OAEP
+from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
 from Crypto.Protocol.KDF import PBKDF2
 from Crypto.PublicKey import RSA
 from Crypto.Util.Padding import pad, unpad
@@ -209,7 +209,7 @@ class Cryptor:
 
         return data.decode()
 
-    def encrypt_RSA(self, data, pubkey=None):
+    def encrypt_RSA(self, data, pubkey, padding="pkcs1_v1_5"):
         """
         使用RSA加密数据。
 
@@ -224,13 +224,15 @@ class Cryptor:
         if pubkey is None:
             raise ValueError("Public key must be provided for RSA encryption")
         else:
-            key = RSA.import_key(pubkey)
-
-        cipher = PKCS1_OAEP.new(key)
+            key = RSA.import_key(pubkey.encode('utf-8'))
+        if padding == "pkcs1_v1_5":
+            cipher = PKCS1_v1_5.new(key=key)
+        else:
+            cipher = PKCS1_OAEP.new(key)
         encrypted_data = cipher.encrypt(data.encode())
         return base64.b64encode(encrypted_data).decode()
 
-    def decrypt_RSA(self, encrypted_data, privkey):
+    def decrypt_RSA(self, encrypted_data, privkey, padding="pkcs1_v1_5"):
         """
         使用RSA解密数据。
 
@@ -241,19 +243,18 @@ class Cryptor:
         返回:
         - 原始的明文字符串数据。
         """
-        # 将接收到的Base64编码的加密数据解码回字节串
+        if privkey is None:
+            raise ValueError("Privkey key must be provided for RSA encryption")
+        else:
+            key = RSA.import_key(privkey.encode())
         encrypted_data_bytes = base64.b64decode(encrypted_data)
+        if padding == "pkcs1_v1_5":
+            cipher = PKCS1_v1_5.new(key=key)
+            decrypted_data = cipher.decrypt(encrypted_data_bytes, None)
+        else:
+            cipher = PKCS1_OAEP.new(key)
+            decrypted_data = cipher.decrypt(encrypted_data_bytes)
 
-        # 导入私钥
-        key = RSA.import_key(privkey)
-
-        # 创建一个PKCS1_OAEP模式的解密器
-        cipher = PKCS1_OAEP.new(key)
-
-        # 解密数据
-        decrypted_data = cipher.decrypt(encrypted_data_bytes)
-
-        # 返回解密后的原始数据
         return decrypted_data.decode()
 
     def encrypt_Base64(self, data):
