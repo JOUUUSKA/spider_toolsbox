@@ -1,18 +1,21 @@
 # 安装指南 
 
-## 1、安装依赖
+## 1、安装依赖  
+方式一:  
 pip安装  
 ```python  
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple opencv-python==4.3.0.38 
-```
-poetry进行依赖安装  
-```python  
-poetry install
-```
+```  
 拉取源码  
 ```python  
 pip install git+https://github.com/JOUUUSKA/spider_toolsbox.git
 ```
+
+方式二:  
+poetry进行依赖安装  
+```python  
+poetry install
+```  
 要使用spider_toolsbox里面的验证码识别模块需要cv2依赖库，  
 cv2这个库安装有一些坑，  
 但是只要复制执行上面的安装指令即可绕过。  
