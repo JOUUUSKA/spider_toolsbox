@@ -3707,8 +3707,7 @@ files = [
 ]
 
 [[package]]
-name = "spider-kit"
-version = "0.3.30"
+name = "spider-toolsbox"
 description = ""
 optional = false
 python-versions = "^3.10"
@@ -3732,7 +3731,7 @@ txmongo = "^23.0.0"
 
 [package.source]
 type = "git"
-url = "git@git.rccchina.com:crawl/spider-kit.git"
+url = "https://github.com/JOUUUSKA/spider_toolsbox.git"
 reference = "0.3.30"
 resolved_reference = "1e9a7a1137d3d4f5df37fb97cf601f4628910080"
 
