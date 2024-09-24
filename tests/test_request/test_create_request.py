@@ -25,10 +25,21 @@ async def test_Async_Request_create_request():
     assert urequest3.xpath("//title/text()").get() == "百度一下，你就知道"
 
 
+def test_None_Request_create_request():
+    req_mode4 = "NoneRequest"
+    try:
+        create_request(url=url, req_mode=req_mode4, headers=headers)
+    except ValueError as e:
+        assert str(e) == "Only support request modes: Request, SessionRequest, AsyncRequest, But got: NoneRequest"
+    else:
+        raise AssertionError("Expected ValueError but no exception was raised")
+
+
 async def main():
     test_Request_create_request()
     test_Session_Request_create_request()
     await test_Async_Request_create_request()
+    test_None_Request_create_request()
 
 if __name__ == '__main__':
     run_script(main)
