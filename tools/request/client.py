@@ -27,11 +27,11 @@ def create_request(url, req_mode="Request", *args, **kwargs):
         "SessionRequest": SessionRequest,
         "AsyncRequest": AsyncRequest,
     }
-    for k, v in classes_dict.items():
-        if req_mode == k:
-            return classes_dict[req_mode](url, *args, **kwargs)
+    classes = classes_dict.get(req_mode)
+    if classes:
+        return classes(url, *args, **kwargs)
     else:
         raise ValueError(
-            f"Only support request modes: {classes_dict.keys()}"
+            f"Only support request modes: {', '.join(classes_dict.keys())}, "
             f"But got: {req_mode}"
         )
