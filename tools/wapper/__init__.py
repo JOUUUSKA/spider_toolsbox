@@ -1,4 +1,4 @@
-from tools.wapper.wappers import *
+from spider_toolsbox.tools.wapper.wappers import *
 
 __all__ = [
     "catch_bug",
