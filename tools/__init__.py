@@ -6,13 +6,14 @@
 @Author  ：JOUSKA. ling-yuan
 @Date    ：2023/12/14 10:50
 """
+import random
 
 # from spider_tools.spider_tools import *
-from tools.download import *
-from tools.log import *
-from tools.ocr import *
-from tools.utils import *
-from tools.parse import *
-from tools.request import *
-from tools.wapper import *
+# from download import *
+# from log import *
+# from ocr import *
+# from utils import *
+# from parse import *
+# from request import *
+# from wapper import *
 

@@ -2,7 +2,7 @@ import random
 import time
 
 from fake_useragent import UserAgent
-from constants.constants import DEFAULT_USER_AGENT
+from spider_toolsbox.tools.constants.constants import DEFAULT_USER_AGENT
 
 ua_pool = UserAgent()
 

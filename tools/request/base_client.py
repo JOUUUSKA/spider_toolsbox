@@ -3,9 +3,9 @@ from urllib.parse import urljoin
 import chardet
 from scrapy import Selector
 
-import tools
-from tools.utils.url import is_valid_url
-from utils.xpath import is_valid_xpath
+from spider_toolsbox.tools.request import create_default_headers
+from spider_toolsbox.tools.utils.url import is_valid_url
+from spider_toolsbox.tools.utils.xpath import is_valid_xpath
 
 
 class BaseClient(object):
@@ -75,7 +75,7 @@ class BaseRequest(BaseClient):
             raise ValueError(f"Invalid URL: {url}")
 
         if headers is None:
-            self.headers = tools.create_default_headers()
+            self.headers = create_default_headers()
 
         self._response = self.set_response(**kwargs)
 
@@ -106,7 +106,7 @@ class BaseRequest(BaseClient):
             raise ValueError(f"Invalid URL: {url}")
 
         if headers is None:
-            self.headers = tools.create_headers()
+            self.headers = create_default_headers()
 
         self._response = await self.set_async_response(**kwargs)
 
@@ -160,7 +160,7 @@ class BaseRequest(BaseClient):
         '''
         返回当前界面的url
         '''
-        return self._response.url
+        return str(self._response.url)
 
     def urljoin(self, uri):
         '''
@@ -195,6 +195,13 @@ class BaseRequest(BaseClient):
         返回当前页面设置的cookies
         '''
         return self._response.cookies
+
+    @property
+    def encoding(self):
+        '''
+        返回当前页面设置的cookies
+        '''
+        return self._response.encoding
 
     def get_cookies_dict(self):
         '''

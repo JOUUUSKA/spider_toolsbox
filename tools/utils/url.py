@@ -17,7 +17,7 @@ from w3lib.url import (
     canonicalize_url,
 )
 
-from tools.constants.constants import EXT_TYPES
+from spider_toolsbox.tools.constants.constants import EXT_TYPES
 
 
 def is_attachment_href(href: str) -> bool:

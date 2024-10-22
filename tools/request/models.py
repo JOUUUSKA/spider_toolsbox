@@ -2,7 +2,7 @@ import asyncio
 
 import httpx
 
-from request.base_client import BaseRequest
+from spider_toolsbox.tools.request.base_client import BaseRequest
 
 
 class Request(BaseRequest):
