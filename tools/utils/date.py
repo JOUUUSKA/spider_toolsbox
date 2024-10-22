@@ -14,7 +14,7 @@ from zoneinfo import ZoneInfo
 import dateparser
 from dateparser import parse
 
-from tools.constants.constants import TIME_ZONE
+from spider_toolsbox.tools.constants.constants import TIME_ZONE
 
 default_value = ""
 # 定义中文数字和时间单位的翻译映射表

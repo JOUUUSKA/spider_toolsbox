@@ -1,4 +1,4 @@
-from request.models import Request, SessionRequest, AsyncRequest
+from spider_toolsbox.tools.request.models import Request, SessionRequest, AsyncRequest
 
 
 def create_request(url, req_mode="Request", *args, **kwargs):

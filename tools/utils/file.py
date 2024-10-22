@@ -10,8 +10,8 @@ import re
 from typing import Dict
 from urllib.parse import unquote
 
-from tools.constants.constants import EXT_TYPES
-from tools.utils.text import decode_bytes
+from spider_toolsbox.tools.constants.constants import EXT_TYPES
+from spider_toolsbox.tools.utils.text import decode_bytes
 
 default_file_name = "附件"
 
