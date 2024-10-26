@@ -1,4 +1,4 @@
-from tools.log.logger import *
+from spider_toolsbox.tools.log.logger import *
 
 __all__ = [
     "info",

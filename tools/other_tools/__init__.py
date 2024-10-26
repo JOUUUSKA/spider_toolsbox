@@ -1,6 +1,6 @@
-from tools.other_tools.name import *
-from tools.other_tools.other_tools import *
-from tools.other_tools.create import *
+from spider_toolsbox.tools.other_tools.name import *
+from spider_toolsbox.tools.other_tools.other_tools import *
+from spider_toolsbox.tools.other_tools.create import *
 
 __all__ = [
     "open_js",
