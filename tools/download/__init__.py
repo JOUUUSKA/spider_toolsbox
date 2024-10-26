@@ -1,4 +1,4 @@
-from tools.download.dowloader import *
+from spider_toolsbox.tools.download.dowloader import *
 
 __all__ = [
     "download_video",

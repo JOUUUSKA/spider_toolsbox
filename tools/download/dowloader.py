@@ -1,6 +1,8 @@
-import tools
-from link_extractors.html_response import extract_text_by_response_xpath
-from utils.url import is_attachment_href
+from spider_toolsbox.tools.link_extractors.html_response import extract_text_by_response_xpath
+from spider_toolsbox.tools.log import success, critical
+from spider_toolsbox.tools.other_tools.name import video_name, image_name, txt_name
+from spider_toolsbox.tools.request import create_default_headers, Request
+from spider_toolsbox.tools.utils.url import is_attachment_href
 
 
 def download_video(
@@ -34,9 +36,9 @@ def download_video(
     如果:
     对其他参数没有进行特别指定，
     那么:
-    headers 默认为 tools.headers
+    headers 默认为 headers
     file_type 默认为 'mp4'
-    name 默认为 str(tools.video_name())
+    name 默认为 str(video_name())
     mode 默认为 'wb'
 
     并在此文件夹下新建一个Download_video文件夹，对下载的视频进行持久化存储
@@ -44,14 +46,14 @@ def download_video(
     if file_type is None:
         file_type = "mp4"
     if name is None:
-        name = str(tools.video_name())
+        name = str(video_name())
     if mode is None:
         mode = "wb"
     if headers is None:
-        headers = tools.create_headers()
+        headers = create_default_headers()
     if file_name is None:
-        file_name = tools.video_name()
-    response = tools.Request(
+        file_name = video_name()
+    response = Request(
         url,
         method=method,
         headers=headers,
@@ -66,9 +68,9 @@ def download_video(
         else:
             with open(f"{file_path}/{file_name}.{file_type}", mode) as f:
                 f.write(response.content)  # type:ignore
-        tools.success(f"{file_name}.{file_type} 下载成功")
+        success(f"{file_name}.{file_type} 下载成功")
     else:
-        tools.critical(f"{name}.{file_type} 下载失败")
+        critical(f"{name}.{file_type} 下载失败")
 
 
 def download_file(
@@ -104,9 +106,9 @@ def download_file(
     如果:
     对其他参数没有进行特别指定，
     那么:
-    headers 默认为 tools.headers
+    headers 默认为 headers
     file_type 默认为 'mp4'
-    name 默认为 str(tools.video_name())
+    name 默认为 str(video_name())
     mode 默认为 'wb'
 
     并在此文件夹下新建一个Download_file文件夹，对下载的视频进行持久化存储
@@ -117,12 +119,12 @@ def download_file(
         raise ValueError("Invalid file url")
 
     if name is None:
-        name = str(tools.video_name())
+        name = str(video_name())
     if mode is None:
         mode = "wb"
     if headers is None:
-        headers = tools.create_headers()
-    response = tools.Request(
+        headers = create_default_headers()
+    response = Request(
         checked_file_url,
         method=method,
         headers=headers,
@@ -137,9 +139,9 @@ def download_file(
         else:
             with open(f"{file_path}/{file_name}.{file_type}", mode) as f:
                 f.write(response.content)  # type:ignore
-        tools.success(f"{file_name}.{file_type} 下载成功")
+        success(f"{file_name}.{file_type} 下载成功")
     else:
-        tools.critical(f"{name}.{file_type} 下载失败")
+        critical(f"{name}.{file_type} 下载失败")
 
 
 def download_img(
@@ -173,9 +175,9 @@ def download_img(
     如果:
     对其他参数没有进行特别指定，
     那么:
-    headers 默认为 tools.headers
+    headers 默认为 headers
     file_type 默认为 'jpg'
-    name 默认为 str(tools.image_name())
+    name 默认为 str(image_name())
     mode 默认为 'wb'
 
     并在此文件夹下新建一个Download_image文件夹，对下载的 图片 进行持久化存储
@@ -183,12 +185,12 @@ def download_img(
     if file_type is None:
         file_type = "jpg"
     if name is None:
-        name = str(tools.image_name())
+        name = str(image_name())
     if mode is None:
         mode = "wb"
     if headers is None:
-        headers = tools.create_headers()
-    response = tools.Request(
+        headers = create_default_headers()
+    response = Request(
         url,
         method=method,
         headers=headers,
@@ -203,9 +205,9 @@ def download_img(
         else:
             with open(f"{file_path}/{file_name}.{file_type}", mode) as f:
                 f.write(response.content)  # type:ignore
-        tools.success(f"{file_name}.{file_type} 下载成功")
+        success(f"{file_name}.{file_type} 下载成功")
     else:
-        tools.critical(f"{name}.{file_type} 下载失败")
+        critical(f"{name}.{file_type} 下载失败")
 
 
 def download_character_by_response_xpath(
@@ -237,7 +239,7 @@ def download_character_by_response_xpath(
     对其他参数没有进行特别指定，
     那么:
     file_type 默认为 'txt'
-    name 默认为 str(tools.txt_name())
+    name 默认为 str(txt_name())
     mode 默认为 'w'
 
     并在此文件夹下新建一个Download_txt文件夹，对下载的 文本 进行持久化存储
@@ -245,10 +247,10 @@ def download_character_by_response_xpath(
     if file_type is None:
         file_type = "txt"
     if file_name is None:
-        file_name = str(tools.txt_name())
+        file_name = str(txt_name())
     if mode is None:
         mode = "w"
-    req = tools.Request(
+    req = Request(
         url,
         method=method,
         headers=headers,
@@ -264,7 +266,7 @@ def download_character_by_response_xpath(
     else:
         with open(f"{file_path}/{file_name}.{file_type}", mode) as f:
             f.write(text)  # type:ignore
-    tools.success(f"{file_name}.{file_type} 下载成功")
+    success(f"{file_name}.{file_type} 下载成功")
 
 
 def download_others(
@@ -287,7 +289,7 @@ def download_others(
     if file_type is None:
         file_type = "txt"
     if name is None:
-        name = str(tools.txt_name())
+        name = str(txt_name())
     if mode is None:
         mode = "w"
     if file_path is None:
@@ -296,4 +298,4 @@ def download_others(
     else:
         with open(f"{file_path}/{name}.{file_type}", mode) as f:
             f.write(others)  # type:ignore
-    tools.success(f"{name}.{file_type} 下载成功")
+    success(f"{name}.{file_type} 下载成功")
