@@ -185,6 +185,7 @@ load_async方法是一个异步函数，所以同时用await挂起。
 from spider_toolsbox.tools.request.client import create_request   
 from spider_toolsbox.tools.request.info import create_headers
 from spider_toolsbox.tools.request.models import run_script
+import asyncio
 
 url = "https://www.baidu.com"
 headers = create_headers()
@@ -202,10 +203,10 @@ def test_Session_Request_create_request():
 
 
 
-async def test_Async_Request_create_request():
+async def test_Async_Request_create_request(urls):
     req_mode3 = "AsyncRequest"
-    urequest3 = create_request(url=url, req_mode=req_mode3, headers=headers)
-    await urequest3.load_async()
+    urequest3 = [create_request(url, "AsyncRequest") for url in urls]
+    await asyncio.gather(*[req.load_async() for req in urequest3])
     assert urequest3.xpath("//title/text()").get() == "百度一下，你就知道"
 
 

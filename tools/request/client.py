@@ -1,5 +1,11 @@
 from spider_toolsbox.tools.request.models import Request, SessionRequest, AsyncRequest
 
+classes_dict = {
+    "Request": Request,
+    "SessionRequest": SessionRequest,
+    "AsyncRequest": AsyncRequest,
+}
+
 
 def create_request(url, req_mode="Request", *args, **kwargs):
     '''
@@ -18,15 +24,13 @@ def create_request(url, req_mode="Request", *args, **kwargs):
 
     example:
         req_mode3 = "AsyncRequest"
-        urequest3 = create_request(url=url, req_mode=req_mode3, headers=headers)
-        await urequest3.load_async()
-        assert urequest3.xpath("//title/text()").get() == "百度一下，你就知道"
+        urequest3 = [create_request(url=url, req_mode=req_mode3, headers=headers) for url in urls]
+        await asyncio.gather(*[req.load_async() for req in requests])
+        for req in urequest3:
+            title = req.xpath("xpath").get()
+            assert req.xpath("//title/text()").get() == "百度一下，你就知道"
     '''
-    classes_dict = {
-        "Request": Request,
-        "SessionRequest": SessionRequest,
-        "AsyncRequest": AsyncRequest,
-    }
+
     classes = classes_dict.get(req_mode)
     if classes:
         return classes(url, *args, **kwargs)
