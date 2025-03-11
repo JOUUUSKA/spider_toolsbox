@@ -20,6 +20,8 @@ from spider_toolsbox.tools.utils.text import clear_text
 from spider_toolsbox.tools.utils.html import html_find_specific_string
 from spider_toolsbox.tools.utils.url import is_valid_url
 
+from utils import extract_date
+
 link_attrib = ["href", "src", "url", "data-href", "data-value"]
 
 special_link_attrib = ["onclick"]
@@ -195,3 +197,14 @@ def extract_text_by_response_xpath(response: "HtmlResponse", xpath: str):
     """
     elements = response.xpath(xpath)
     return _extract_text(elements)
+
+def extract_date_by_response_xpath(response: "HtmlResponse", xpath: str):
+    """
+    通过xpath从scrapy response中解析文本
+
+    :param response: scrapy response
+    :param xpath: xpath
+    :return:
+    """
+    elements = response.xpath(xpath).get()
+    return extract_date(elements)
