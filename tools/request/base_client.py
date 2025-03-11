@@ -42,6 +42,9 @@ class BaseClient(object):
     def content(self):
         raise NotImplementedError
 
+    def iter_content(self):
+        raise NotImplementedError
+
     def xpath(self, xpath):
         raise NotImplementedError
 
@@ -188,6 +191,19 @@ class BaseRequest(BaseClient):
         返回响应字节流
         '''
         return self._response.content
+
+    def iter_content(self, *args, **kwargs):
+        '''
+        返回响应字节流
+        '''
+        return self._response.iter_content(*args, **kwargs)
+
+    @staticmethod
+    def headers(self, *args, **kwargs):
+        '''
+        headers
+        '''
+        return self._response.headers(*args, **kwargs)
 
     @property
     def cookies(self):
