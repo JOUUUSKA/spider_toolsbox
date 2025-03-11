@@ -75,3 +75,8 @@ TIME_ZONE = "Asia/Shanghai"
 BID_IN_CRAWLAB_SERVICE_ID = 4
 
 CRAWLAB_SERVICE = "crawlab"
+
+image_count = 0
+txt_count = 0
+video_count = 0
+file_count = 0
