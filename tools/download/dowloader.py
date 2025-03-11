@@ -377,7 +377,6 @@ def download_file_by_response_xpath(
 
     此函数用于在爬虫任务中，
     通过一个给定的附件元素xpath，快速地进行 附件 下载操作
-
     """
     url_list = extract_link_by_response_xpath(response, xpath)
     for url in url_list:
