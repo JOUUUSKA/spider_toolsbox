@@ -1,4 +1,4 @@
-from spider_toolsbox.tools.request.models import Request, SessionRequest, AsyncRequest
+from tools.request.models import Request, SessionRequest, AsyncRequest
 
 classes_dict = {
     "Request": Request,

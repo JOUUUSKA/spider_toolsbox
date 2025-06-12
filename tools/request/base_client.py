@@ -3,9 +3,9 @@ from urllib.parse import urljoin
 import chardet
 from scrapy import Selector
 
-from spider_toolsbox.tools.request import create_default_headers
-from spider_toolsbox.tools.utils.url import is_valid_url
-from spider_toolsbox.tools.utils.xpath import is_valid_xpath
+from tools.request import create_default_headers
+from tools.utils.url import is_valid_url
+from tools.utils.xpath import is_valid_xpath
 
 
 class BaseClient(object):

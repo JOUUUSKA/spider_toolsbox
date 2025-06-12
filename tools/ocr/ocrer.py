@@ -1,7 +1,7 @@
 import cv2
 import ddddocr
 
-from spider_toolsbox.tools.log import logger
+from tools.log import logger
 
 
 def ocr_img(img_path):

@@ -1,15 +1,15 @@
 import os
 from urllib.parse import urljoin
 
-from spider_toolsbox.tools.link_extractors.html_response import (
+from tools.link_extractors.html_response import (
     extract_text_by_response_xpath,
     extract_link_by_response_xpath
 )
-from spider_toolsbox.tools.log import success, critical
-from spider_toolsbox.tools.other_tools.name import video_name, image_name, txt_name
-from spider_toolsbox.tools.other_tools.name import file_name as download_file_name
-from spider_toolsbox.tools.request import create_default_headers, create_request
-from spider_toolsbox.tools.utils.url import is_attachment_href, is_valid_url
+from tools.log import success, critical
+from tools.other_tools.name import video_name, image_name, txt_name
+from tools.other_tools.name import file_name as download_file_name
+from tools.request import create_default_headers, create_request
+from tools.utils.url import is_attachment_href, is_valid_url
 
 
 class DownloadError(Exception):

@@ -8,7 +8,7 @@
 '''
 from lxml import etree
 from loguru import logger
-from spider_toolsbox.tools.utils.html import html_find_specific_string  # type: ignore
+from tools.utils.html import html_find_specific_string  # type: ignore
 
 TEXT_ATTRIBUTE_LIST = ["string(.)", "./text()", "./@title"]
 URL_ATTRIBUTE_LIST = ["./@href", "./@src", "./@data-href", "./@onclick", "./@id"]

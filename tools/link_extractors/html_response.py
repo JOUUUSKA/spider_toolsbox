@@ -16,11 +16,11 @@ from scrapy.utils.response import get_base_url
 from w3lib.html import strip_html5_whitespace
 from w3lib.url import safe_url_string
 
-from spider_toolsbox.tools.utils.text import clear_text
-from spider_toolsbox.tools.utils.html import html_find_specific_string
-from spider_toolsbox.tools.utils.url import is_valid_url
+from tools.utils.text import clear_text
+from tools.utils.html import html_find_specific_string
+from tools.utils.url import is_valid_url
 
-from utils import extract_date
+from tools.utils import extract_date
 
 link_attrib = ["href", "src", "url", "data-href", "data-value"]
 
