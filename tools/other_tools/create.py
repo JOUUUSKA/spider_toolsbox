@@ -1,7 +1,7 @@
 import os
 
 
-def create_infile(name=None):
+def create_infile(name: str=None):
     """
     :param name: 需要创建的文件夹的名字
     :return: None
@@ -16,7 +16,7 @@ def create_infile(name=None):
         os.mkdir(f"./{name}")
 
 
-def create_outfile(name=None):
+def create_outfile(name: str=None):
     """
     :param name: 需要创建的文件夹的名字
     :return: None

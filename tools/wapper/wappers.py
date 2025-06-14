@@ -1,7 +1,8 @@
 import time
+from typing import Callable
 
 
-def catch_bug(func):
+def catch_bug(func: Callable):
     """
     :param func: 需要传入的函数
     :return: 传入的原函数
@@ -29,7 +30,7 @@ def catch_bug(func):
     return wrapper
 
 
-def test_time(func):
+def test_time(func: Callable):
     """
     :param func: 需要传入的函数
     :return: 传入的原函数所耗费的时间
@@ -55,7 +56,7 @@ def test_time(func):
     return target()
 
 
-def retry(max_attempts: int, delay):
+def retry(max_attempts: int, delay: int):
     """
     :param max_attempts: 需要重试的最大次数
     :param delay: 每次重试的时间间隔

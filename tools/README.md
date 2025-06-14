@@ -20,8 +20,7 @@ from spider_toolsbox.tools.ocr.ocrer import ocr_img
 result = ocr_img(img_path)
 ```
 返回给图片中显示的验证码  
-<br>---------------------------------------------------------------------------------------------------------------------------------<br>
-
+---
 
 **2、识别滑块验证码**  
 
@@ -38,8 +37,7 @@ from spider_toolsbox.tools.ocr.ocrer import ocr_slide_with_hole
 result = ocr_slide_with_hole(bgimg_path, fullpage_path)
 ```    
 返回图片中显示的滑块图缺口坐标
-<br>---------------------------------------------------------------------------------------------------------------------------------<br>
-小滑块为单独的png图片，背景是透明图，如下图
+---小滑块为单独的png图片，背景是透明图，如下图
 
 ![Test](https://cdn.wenanzhe.com/img/b.png) 
 
@@ -52,8 +50,7 @@ from spider_toolsbox.tools.ocr.ocrer import ocr_slide_with_clean
 result = ocr_slide_with_clean(bgimg_path, fullpage_path)
 ```   
 返回图片中显示的滑块图缺口坐标
-<br>---------------------------------------------------------------------------------------------------------------------------------<br>
-
+---
 **3、识别点选验证码**  
 
 ![Test](https://cdn.wenanzhe.com/img/0446fe794381489f90719d5e0506f2da.jpg) 

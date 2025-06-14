@@ -30,7 +30,7 @@ def html_unescape(content):
     return unescape(content)
 
 
-def replace_tags(text: str, old_tag, new_tag):
+def replace_tags(text: str, old_tag: str, new_tag: str):
     '''
     将文本中的tag类型替换
     :param text:
@@ -98,7 +98,7 @@ def remove_html5_whitespace(text: str):
     return strip_html5_whitespace(text)
 
 
-def _remove_content(text, xpath):
+def _remove_content(text: str, xpath: str):
     html = Selector(text=text)
     if xpath:
         html.xpath(xpath).drop()

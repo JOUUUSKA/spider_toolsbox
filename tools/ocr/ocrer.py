@@ -4,7 +4,7 @@ import ddddocr
 from tools.log import logger
 
 
-def ocr_img(img_path):
+def ocr_img(img_path: str):
     '''
     :param imgpath: 需要识别的图片路径
     :return: 图片中显示的验证码
@@ -21,7 +21,7 @@ def ocr_img(img_path):
     return res
 
 
-def ocr_slide_with_hole(bgimg_path, fullpage_path):
+def ocr_slide_with_hole(bgimg_path: str, fullpage_path: str):
     '''
     :param imgpath: 需要识别的背景图片路径
     :param fullpage_path: 需要识别的全图片路径
@@ -41,7 +41,7 @@ def ocr_slide_with_hole(bgimg_path, fullpage_path):
     logger.info(f"res: {res}")
     return res
 
-def ocr_slide_with_clean(bgimg_path, fullpage_path):
+def ocr_slide_with_clean(bgimg_path: str, fullpage_path: str):
     '''
     小滑块为单独的png图片，背景是透明图
 
@@ -62,7 +62,7 @@ def ocr_slide_with_clean(bgimg_path, fullpage_path):
     logger.info(f"res: {res} res.target: {res['target'][0]}")
     return res
 
-def ocr_click_choose(test_img_path, result_img_path):
+def ocr_click_choose(test_img_path: str, result_img_path: str):
     '''
     :param test_img_path: 需要识别的背景图片路径
     :param result_img_path: 识别后，生成的 新的 带红框的 全图片 的路径

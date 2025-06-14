@@ -11,7 +11,7 @@ from Crypto.Util.Padding import pad, unpad
 
 
 class Base64Encoder:
-    def encrypt_Base64(self, data):
+    def encrypt_Base64(self, data: str):
         '''
         :param data: 待加密的数据
         :return: 经过base64编码转换后的数据
@@ -24,7 +24,7 @@ class Base64Encoder:
         encoded_data = base64.b64encode(str(data).encode())
         return encoded_data.decode('utf-8')
 
-    def decrypt_Base64(self, encoded_data):
+    def decrypt_Base64(self, encoded_data: str):
         '''
         :param encoded_data: 经过base64编码的数据
         :return: 原始数据
@@ -39,7 +39,7 @@ class Base64Encoder:
 
 
 class AESCipher:
-    def encrypt_AESCBC(self, data, key, iv, output_format='base64'):
+    def encrypt_AESCBC(self, data: str, key: str, iv: str, output_format: str='base64'):
         """
         使用AES CBC模式加密数据，支持自定义key、iv及输出格式
         :param data: 待加密的明文数据（bytes类型）
@@ -64,7 +64,7 @@ class AESCipher:
         else:
             raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
 
-    def decrypt_AESCBC(self, encoded_ciphertext, key, iv, input_format='base64'):
+    def decrypt_AESCBC(self, encoded_ciphertext: str, key: str, iv: str, input_format: str='base64'):
         """
         使用AES CBC模式解密数据，支持自定义key、iv及输入格式
         :param encoded_ciphertext: 经过编码的密文数据（str类型）
@@ -89,7 +89,7 @@ class AESCipher:
 
         return data.decode()
 
-    def encrypt_AESECB(self, data, key, output_format='base64'):
+    def encrypt_AESECB(self, data: str, key: str, output_format: str='base64'):
         """
         使用AES ECB模式加密数据，支持自定义key及输出格式
         :param data: 待加密的明文数据（bytes类型）
@@ -110,7 +110,7 @@ class AESCipher:
         else:
             raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
 
-    def decrypt_AESECB(self, encoded_ciphertext, key, input_format='base64'):
+    def decrypt_AESECB(self, encoded_ciphertext: str, key: str, input_format: str='base64'):
         """
         使用AES ECB模式解密数据，支持自定义key及输入格式
         :param encoded_ciphertext: 经过编码的密文数据（str类型）
@@ -133,7 +133,7 @@ class AESCipher:
 
 
 class DESCipher:
-    def encrypt_DESCBC(self, data, key, iv, output_format='base64'):
+    def encrypt_DESCBC(self, data: str, key: str, iv: str, output_format: str='base64'):
         """
         使用DES CBC模式加密数据，支持自定义key、iv及输出格式
         :param data: 待加密的明文数据（bytes类型）
@@ -158,7 +158,7 @@ class DESCipher:
         else:
             raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
 
-    def decrypt_DESCBC(self, encoded_ciphertext, key, iv, input_format='base64'):
+    def decrypt_DESCBC(self, encoded_ciphertext: str, key: str, iv: str, input_format: str='base64'):
         """
         使用DES CBC模式解密数据，支持自定义key、iv及输入格式
         :param encoded_ciphertext: 经过编码的密文数据（str类型）
@@ -183,7 +183,7 @@ class DESCipher:
 
         return data.decode()
 
-    def encrypt_DESECB(self, data, key, output_format='base64'):
+    def encrypt_DESECB(self, data: str, key: str, output_format: str='base64'):
         """
         使用DES ECB模式加密数据，支持自定义key及输出格式
         :param data: 待加密的明文数据（bytes类型）
@@ -208,7 +208,7 @@ class DESCipher:
         else:
             raise ValueError("Invalid output format. Supported formats are 'base64' and 'hex'.")
 
-    def decrypt_DESECB(self, encoded_ciphertext, key, input_format='base64'):
+    def decrypt_DESECB(self, encoded_ciphertext: str, key: str, input_format: str='base64'):
         """
         使用DES ECB模式解密数据，支持自定义key及输入格式
         :param encoded_ciphertext: 经过编码的密文数据（str类型）
@@ -234,7 +234,7 @@ class DESCipher:
 
 
 class RSACipher:
-    def encrypt_RSA(self, data, pubkey, padding="pkcs1_v1_5"):
+    def encrypt_RSA(self, data: str, pubkey: str, padding: str="pkcs1_v1_5"):
         """
         使用RSA加密数据。
 
@@ -257,7 +257,7 @@ class RSACipher:
         encrypted_data = cipher.encrypt(data.encode())
         return base64.b64encode(encrypted_data).decode()
 
-    def decrypt_RSA(self, encrypted_data, privkey, padding="pkcs1_v1_5"):
+    def decrypt_RSA(self, encrypted_data: str, privkey: str, padding: str="pkcs1_v1_5"):
         """
         使用RSA解密数据。
 
@@ -284,7 +284,7 @@ class RSACipher:
 
 
 class SHACipher:
-    def encrypt_MD5(self, data):
+    def encrypt_MD5(self, data: str):
         '''
         :param data: 待加密的数据
         :return: 经过md5加密后的数据
@@ -304,7 +304,7 @@ class SHACipher:
 
         return hex_digest
 
-    def encrypt_SHA1(self, data):
+    def encrypt_SHA1(self, data: str):
         '''
         :param data: 待加密的数据
         :return: 经过SHA1加密后的数据
@@ -318,7 +318,7 @@ class SHACipher:
         sha1.update(str(data).encode())
         return sha1.hexdigest()
 
-    def encrypt_SHA256(self, data):
+    def encrypt_SHA256(self, data: str):
         '''
         :param data: 待加密的数据
         :return: 经过SHA256加密后的数据
@@ -332,7 +332,7 @@ class SHACipher:
         sha256.update(str(data).encode())
         return sha256.hexdigest()
 
-    def encrypt_SHA512(self, data):
+    def encrypt_SHA512(self, data: str):
         '''
         :param data: 待加密的数据
         :return: 经过SHA512加密后的数据
@@ -346,7 +346,7 @@ class SHACipher:
         sha512.update(str(data).encode())
         return sha512.hexdigest()
 
-    def encrypt_SHA384(self, data):
+    def encrypt_SHA384(self, data: str):
         '''
         :param data: 待加密的数据
         :return: 经过SHA384加密后的数据
@@ -359,7 +359,7 @@ class SHACipher:
         hash_object = hashlib.sha384(str(data).encode())
         return hash_object.hexdigest()
 
-    def encrypt_HMAC(self, data, key, digestmod='md5', output_format='base64'):
+    def encrypt_HMAC(self, data: str, key: str, digestmod: str='md5', output_format: str='base64'):
         """
         使用HMAC进行数据加密，并支持指定输出格式（Base64或Hex）。
 
@@ -395,7 +395,7 @@ class SHACipher:
             # 返回Hex格式的结果
             return hmac_obj.hexdigest()
 
-    def encrypt_PBKDF2(self, password, salt, output_format='base64', *args, **kwargs):
+    def encrypt_PBKDF2(self, password: str, salt: str, output_format: str='base64', *args, **kwargs):
         '''
         :param password: 要派生的密码（字节串）。
         :param salt: 随机生成的盐（字节串）。

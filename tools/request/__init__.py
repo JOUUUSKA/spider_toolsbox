@@ -1,6 +1,6 @@
-from spider_toolsbox.tools.request.info import *
-from spider_toolsbox.tools.request.client import *
-from spider_toolsbox.tools.request.models import *
+from tools.request.info import *
+from tools.request.client import *
+from tools.request.models import *
 
 __all__ = [
     "create_timestamp",
