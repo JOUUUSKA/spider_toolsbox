@@ -1,3 +1,5 @@
+import asyncio
+
 from tools.request.models import Request, SessionRequest, AsyncRequest
 
 classes_dict = {
@@ -41,3 +43,9 @@ def create_request(url: str, req_mode: str="Request", *args, **kwargs):
             f"Only support request modes: {', '.join(classes_dict.keys())}, "
             f"But got: {req_mode}"
         )
+
+async def async_request(urls: list[str], *args, **kwargs):
+    req_mode = "AsyncRequest"
+    responses = [create_request(url=url, req_mode=req_mode, *args, **kwargs) for url in urls]
+    await asyncio.gather(*[res.load_async() for res in responses])
+    return responses
