@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Callable
 from urllib.parse import urljoin
 
 import chardet
@@ -73,8 +73,17 @@ class BaseRequest(BaseClient):
         self.data = data
         self.jsondata = jsondata
 
-        if is_valid_url(url):
-            self.req_url = url
+        if isinstance(url, str):
+            if is_valid_url(url):
+                self.req_url = url
+            else:
+                raise ValueError(f"Invalid URL: {url}")
+        elif isinstance(url, list):
+            for url in url:
+                if is_valid_url(url):
+                    self.req_url = url
+                else:
+                    raise ValueError(f"Invalid URL: {url}")
         else:
             raise ValueError(f"Invalid URL: {url}")
 

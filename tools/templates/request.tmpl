@@ -1,4 +1,5 @@
 import asyncio
+from gc import callbacks
 
 from loguru import logger
 
@@ -7,6 +8,7 @@ from tools.link_extractors.html_response import (
     extract_link_by_response_xpath,
     extract_date_by_response_xpath
 )
+from tools.request import create_request
 from tools.utils import get_xpath_file_info
 from tools.wapper import catch_bug
 from tools.request.client import async_request
@@ -25,21 +27,22 @@ class $classname:
     name = "$name"
     detail_urls = []
 
-    async def start_request(self):
+    def start_request(self):
         start_url = ["$web_site_name"]
-        responses = await async_request(start_url)
-        return await self.parse_list(responses)
+        responses = [create_request(url) for url in start_url]
+        return self.parse_list(responses)
 
     @catch_bug
-    async def parse_list(self, responses):
+    def parse_list(self, responses):
         for idx, res in enumerate(responses):
             title = extract_text_by_response_xpath(res, "titleXpath")
             detail_url = extract_link_by_response_xpath(res, "titleXpath")
             logger.info(f"title: {title}, detail_url: {detail_url}")
             self.detail_urls.extend(detail_url)
 
-        responses = await async_request(self.detail_urls)
+        responses = [create_request(url) for url in self.detail_urls]
         return self.parse_detail(responses)
+
 
     @catch_bug
     def parse_detail(self, responses):
@@ -52,4 +55,4 @@ class $classname:
 
 if __name__ == '__main__':
     $name = $classname()
-    asyncio.run($name.start_request())
+    $name.start_request()

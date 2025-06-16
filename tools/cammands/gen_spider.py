@@ -18,13 +18,19 @@ parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
 class AutoModel:
     # 单一模板文件路径
     ASYNC_REQUEST_TEMPLATE_FILE = os.path.join(f"{parent_dir}/templates", "async_request.tmpl")
-
+    # 模板文件映射
+    TEMPLATE_MAPPING = {
+        "request": os.path.join(f"{parent_dir}/templates", "request.tmpl"),
+        "session": os.path.join(f"{parent_dir}/templates", "session_request.tmpl"),
+        "async": os.path.join(f"{parent_dir}/templates", "async_request.tmpl")
+    }
     def create_spider_file(
             self,
             spider_name: str,
             class_name: str,
             web_site_name: str,
-            output_dir: str  # 新增输出目录参数
+            output_dir: str,  # 新增输出目录参数
+            gen_mode: str = None
     ):
         '''
         使用单一模板生成爬虫文件
@@ -35,6 +41,7 @@ class AutoModel:
         :param output_dir: 输出目录
         '''
         # 准备模板变量
+        gen_mode = gen_mode or "request"
         tvars_seed = {
             "name": spider_name,
             "classname": class_name,
@@ -50,7 +57,7 @@ class AutoModel:
             return
 
         # 复制模板内容到新文件
-        with open(self.ASYNC_REQUEST_TEMPLATE_FILE, "r", encoding="utf-8") as template_file:
+        with open(self.TEMPLATE_MAPPING[gen_mode], "r", encoding="utf-8") as template_file:
             template_content = template_file.read()
 
         with open(spider_file, "w", encoding="utf-8") as output_file:
@@ -66,7 +73,8 @@ def gen_spider(
         spider_name: str,
         web_site_name: str,
         spider_config: dict = None,  # 保持参数兼容但不再使用
-        output_dir: str = None  # 新增输出目录参数
+        output_dir: str = None,  # 新增输出目录参数
+        gen_mode: str = None
 ):
     '''
     自动生成爬虫代码
@@ -90,14 +98,46 @@ def gen_spider(
         spider_name=spider_name,
         class_name=classname,
         web_site_name=web_site_name,
-        output_dir=output_dir
+        output_dir=output_dir,
+        gen_mode=gen_mode
     )
 
 
 if __name__ == '__main__':
     # 示例调用
     gen_spider(
-        spider_name="ztbgl_spider",
+        spider_name="ztbgl_spider2",
+        gen_mode="session",
         web_site_name="https://www.example.com/",
         output_dir=os.getcwd()  # 输出到当前目录
     )
+    {
+        "name": "title",
+        "value": "//div[@class='list']/li/a",
+        "type": "str",
+        "out_process": None
+    },
+    {
+        "name": "url",
+        "value": "//div[@class='list']/li/a",
+        "type": "url",
+        "out_process": None
+    },
+    {
+        "name": "raw_html",
+        "value": "//form[@name='_newscontent_fromname']",
+        "type": "html",
+        "out_process": None
+    },
+    {
+        "name": "file_urls",
+        "value": "//ul[@style='list-style-type:none;']/li/a",
+        "type": "file",
+        "out_process": None
+    },
+    {
+        "name": "published_at",
+        "value": "//div[@class='nry_tit']/p",
+        "type": "date",
+        "out_process": None
+    },
