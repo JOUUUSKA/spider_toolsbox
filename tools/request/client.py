@@ -1,4 +1,6 @@
-from spider_toolsbox.tools.request.models import Request, SessionRequest, AsyncRequest
+import asyncio
+
+from tools.request.models import Request, SessionRequest, AsyncRequest
 
 classes_dict = {
     "Request": Request,
@@ -7,7 +9,7 @@ classes_dict = {
 }
 
 
-def create_request(url, req_mode="Request", *args, **kwargs):
+def create_request(url: str, req_mode: str="Request", *args, **kwargs):
     '''
     基于工厂模式的生产函数，用于创建初始化不同的请求类型
     类型有三: 同步、异步、会话
@@ -23,12 +25,14 @@ def create_request(url, req_mode="Request", *args, **kwargs):
     load_async方法是一个异步函数，所以同时用await挂起。
 
     example:
-        req_mode3 = "AsyncRequest"
-        urequest3 = [create_request(url=url, req_mode=req_mode3, headers=headers) for url in urls]
-        await asyncio.gather(*[req.load_async() for req in requests])
-        for req in urequest3:
-            title = req.xpath("xpath").get()
-            assert req.xpath("//title/text()").get() == "百度一下，你就知道"
+        ```
+        req_mode = "AsyncRequest"
+        responses = [create_request(url=url, req_mode=req_mode, headers=headers) for url in urls]
+        await asyncio.gather(*[res.load_async() for res in responses])
+        for res in responses:
+            title = res.xpath("xpath").get()
+            assert res.xpath("//title/text()").get() == "百度一下，你就知道"
+        ```
     '''
 
     classes = classes_dict.get(req_mode)
@@ -39,3 +43,9 @@ def create_request(url, req_mode="Request", *args, **kwargs):
             f"Only support request modes: {', '.join(classes_dict.keys())}, "
             f"But got: {req_mode}"
         )
+
+async def async_request(urls: list[str], *args, **kwargs):
+    req_mode = "AsyncRequest"
+    responses = [create_request(url=url, req_mode=req_mode, *args, **kwargs) for url in urls]
+    await asyncio.gather(*[res.load_async() for res in responses])
+    return responses

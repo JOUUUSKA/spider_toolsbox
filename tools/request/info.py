@@ -2,7 +2,7 @@ import random
 import time
 
 from fake_useragent import UserAgent
-from spider_toolsbox.tools.constants.constants import DEFAULT_USER_AGENT
+from tools.constants.constants import DEFAULT_USER_AGENT
 
 ua_pool = UserAgent()
 
@@ -15,7 +15,7 @@ def create_timestamp():
     return round(time.time() * 1000)
 
 
-def create_random_str(length=16, pool=None):
+def create_random_str(length: int =16, pool: str=None):
     """
     :param length: 指定需要返回的random_str个数
     :param pool: 指定random_str的pool范围

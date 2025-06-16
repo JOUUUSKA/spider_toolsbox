@@ -12,7 +12,7 @@ from number_parser import parse_number
 from price_parser import Price
 
 
-def price_parse(price_str) -> "Decimal":
+def price_parse(price_str: str) -> "Decimal":
     '''
     解析价格相关的字符串
     :param price_str: "22,90 €"

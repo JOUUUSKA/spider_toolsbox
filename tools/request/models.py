@@ -1,8 +1,9 @@
 import asyncio
+from typing import Optional, Any, Dict, Callable
 
 import httpx
 
-from spider_toolsbox.tools.request.base_client import BaseRequest
+from tools.request.base_client import BaseRequest
 
 
 class Request(BaseRequest):
@@ -45,13 +46,13 @@ class AsyncRequest(BaseRequest):
     '''
     def __init__(
             self,
-            url,
-            method="get",
-            headers=None,
-            params=None,
-            data=None,
-            jsondata=None,
-            follow_redirects=False,
+            url: str,
+            method: str="get",
+            headers: Optional[Dict[str, str]] = None,
+            params: Optional[Dict[str, Any]] = None,
+            data: Optional[Any] = None,
+            jsondata: Optional[Dict[str, Any]] = None,
+            follow_redirects: bool = False,
             **kwargs
     ):
         self.follow_redirects = follow_redirects
@@ -85,7 +86,7 @@ class AsyncRequest(BaseRequest):
         await self._ainit_coroutine
 
 
-def run_script(func, *args, **kwargs):
+def run_script(func: Callable, *args, **kwargs):
     '''
     用于在主函数中，执行异步任务
     '''

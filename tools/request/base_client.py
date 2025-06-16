@@ -1,11 +1,12 @@
+from typing import Optional, Dict, Any, Callable
 from urllib.parse import urljoin
 
 import chardet
 from scrapy import Selector
 
-from spider_toolsbox.tools.request import create_default_headers
-from spider_toolsbox.tools.utils.url import is_valid_url
-from spider_toolsbox.tools.utils.xpath import is_valid_xpath
+from tools.request import create_default_headers
+from tools.utils.url import is_valid_url
+from tools.utils.xpath import is_valid_xpath
 
 
 class BaseClient(object):
@@ -55,12 +56,12 @@ class BaseRequest(BaseClient):
     '''
     def __init__(
             self,
-            url,
-            method="get",
-            headers=None,
-            params=None,
-            data=None,
-            jsondata=None,
+            url: str,
+            method: str="get",
+            headers: Optional[Dict[str, str]] =None,
+            params: Optional[Dict[str, Any]] =None,
+            data: Optional[Any] =None,
+            jsondata: Optional[Dict[str, Any]] =None,
             **kwargs
     ):
         '''
@@ -72,8 +73,17 @@ class BaseRequest(BaseClient):
         self.data = data
         self.jsondata = jsondata
 
-        if is_valid_url(url):
-            self.req_url = url
+        if isinstance(url, str):
+            if is_valid_url(url):
+                self.req_url = url
+            else:
+                raise ValueError(f"Invalid URL: {url}")
+        elif isinstance(url, list):
+            for url in url:
+                if is_valid_url(url):
+                    self.req_url = url
+                else:
+                    raise ValueError(f"Invalid URL: {url}")
         else:
             raise ValueError(f"Invalid URL: {url}")
 
@@ -86,12 +96,12 @@ class BaseRequest(BaseClient):
 
     async def __ainit__(
             self,
-            url,
-            method="get",
-            headers=None,
-            params=None,
-            data=None,
-            jsondata=None,
+            url: str,
+            method: str="get",
+            headers: Optional[Dict[str, str]] =None,
+            params: Optional[Dict[str, Any]] =None,
+            data: Optional[Any] =None,
+            jsondata: Optional[Dict[str, Any]] =None,
             **kwargs
     ):
         '''
@@ -133,14 +143,14 @@ class BaseRequest(BaseClient):
         '''
         raise NotImplementedError("async_response must be set")
 
-    def autodetect_encoding(self, content):
+    def autodetect_encoding(self, content: bytes):
         '''
         传入response.content，自动获取编码格式，防止乱码
         '''
         encoding = chardet.detect(content).get('encoding', "utf-8")
         return str(encoding)
 
-    def xpath(self, xpath):
+    def xpath(self, xpath: str):
         '''
         使用xpath定位元素
         '''
@@ -165,7 +175,7 @@ class BaseRequest(BaseClient):
         '''
         return str(self._response.url)
 
-    def urljoin(self, uri):
+    def urljoin(self, uri: str):
         '''
         使用urljoin进行url拼接
         '''

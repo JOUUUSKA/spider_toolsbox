@@ -1,0 +1,58 @@
+import asyncio
+from gc import callbacks
+
+from loguru import logger
+
+from tools.link_extractors.html_response import (
+    extract_text_by_response_xpath,
+    extract_link_by_response_xpath,
+    extract_date_by_response_xpath
+)
+from tools.request import create_request
+from tools.utils import get_xpath_file_info
+from tools.wapper import catch_bug
+from tools.request.client import async_request
+
+
+class $classname:
+    """
+    [
+      {
+        "cronjob_name": "$web_site_name",
+        "crontab": todo,
+        "spider_name": "$name"
+      }
+    ]
+    """
+    name = "$name"
+    detail_urls = []
+
+    def start_request(self):
+        start_url = ["$web_site_name"]
+        responses = [create_request(url, req_mode="SessionRequest") for url in start_url]
+        return self.parse_list(responses)
+
+    @catch_bug
+    def parse_list(self, responses):
+        for idx, res in enumerate(responses):
+            title = extract_text_by_response_xpath(res, "titleXpath")
+            detail_url = extract_link_by_response_xpath(res, "titleXpath")
+            logger.info(f"title: {title}, detail_url: {detail_url}")
+            self.detail_urls.extend(detail_url)
+
+        responses = [create_request(url, req_mode="SessionRequest") for url in self.detail_urls]
+        return self.parse_detail(responses)
+
+
+    @catch_bug
+    def parse_detail(self, responses):
+        for idx, res in enumerate(responses):
+            published_at = extract_date_by_response_xpath(res, "published_atXpath")
+            raw_html =res.xpath("raw_htmlXpath']").get()
+            file = get_xpath_file_info(res, "fileXpath")
+            logger.info(f"published_at: {published_at}, raw_html: {raw_html[:10]}, file: {file}")
+
+
+if __name__ == '__main__':
+    $name = $classname()
+    $name.start_request()

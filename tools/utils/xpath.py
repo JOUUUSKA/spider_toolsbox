@@ -8,13 +8,15 @@
 '''
 from lxml import etree
 from loguru import logger
-from spider_toolsbox.tools.utils.html import html_find_specific_string  # type: ignore
+from scrapy import Selector
+
+from tools.utils.html import html_find_specific_string  # type: ignore
 
 TEXT_ATTRIBUTE_LIST = ["string(.)", "./text()", "./@title"]
 URL_ATTRIBUTE_LIST = ["./@href", "./@src", "./@data-href", "./@onclick", "./@id"]
 
 
-def xpath_getall(selector_html, attribute):
+def xpath_getall(selector_html: Selector, attribute: str):
     """
     根据xpath路径与需要抓取的属性获取内容列表
     :param selector_html:
@@ -26,7 +28,7 @@ def xpath_getall(selector_html, attribute):
     return info_list
 
 
-def get_xpath_text_info(selector_html, xpath):
+def get_xpath_text_info(selector_html: Selector, xpath: str):
     """
     获取xpath中的text列表
 
@@ -50,7 +52,7 @@ def get_xpath_text_info(selector_html, xpath):
     return text_list
 
 
-def get_xpath_url_info(selector_html, xpath):
+def get_xpath_url_info(selector_html: Selector, xpath: str):
     """
     获取xpath中的url列表
 
@@ -90,7 +92,7 @@ def filter_urls(urls: list):
     return clean_attachment_links
 
 
-def get_xpath_content_info(selector_html, xpath):
+def get_xpath_content_info(selector_html: Selector, xpath: str):
     """
     获取xpath中的content内容
 
@@ -105,7 +107,7 @@ def get_xpath_content_info(selector_html, xpath):
     return content
 
 
-def get_xpath_file_info(selector_html, file_xpath):
+def get_xpath_file_info(selector_html: Selector, file_xpath: str):
     """
     获取xpath中的filename和fileurl列表
 

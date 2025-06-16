@@ -1,4 +1,4 @@
-from spider_toolsbox.tools.constants.constants import (
+from tools.constants.constants import (
     image_count,
     txt_count,
     video_count,

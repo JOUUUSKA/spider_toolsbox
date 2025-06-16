@@ -19,7 +19,7 @@ from fake_useragent import UserAgent
 from loguru import logger
 from scrapy import Selector
 
-from tools import create_default_headers
+from tools.request.info import create_default_headers
 
 
 class SpiderTools:

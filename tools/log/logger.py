@@ -1,7 +1,7 @@
 from loguru import logger
 
 
-def info(msg, *args, **kwargs):
+def info(msg: str, *args, **kwargs):
     """
     :param msg: 需要在控制台输出的数据,输出格式为INFO
 
@@ -11,7 +11,7 @@ def info(msg, *args, **kwargs):
     logger.info(msg, *args, **kwargs)
 
 
-def debug(msg, *args, **kwargs):
+def debug(msg: str, *args, **kwargs):
     """
     :param msg: 需要在控制台输出的数据,输出格式为DEBUG
 
@@ -21,7 +21,7 @@ def debug(msg, *args, **kwargs):
     logger.debug(msg, *args, **kwargs)
 
 
-def warning(msg, *args, **kwargs):
+def warning(msg: str, *args, **kwargs):
     """
     :param msg: 需要在控制台输出的数据,输出格式为WARING
 
@@ -31,7 +31,7 @@ def warning(msg, *args, **kwargs):
     logger.warning(msg, *args, **kwargs)
 
 
-def error(msg, *args, **kwargs):
+def error(msg: str, *args, **kwargs):
     """
     :param msg: 需要在控制台输出的数据,输出格式为ERROE
 
@@ -41,7 +41,7 @@ def error(msg, *args, **kwargs):
     logger.error(msg, *args, **kwargs)
 
 
-def success(msg, *args, **kwargs):
+def success(msg: str, *args, **kwargs):
     '''
     :param msg: 需要在控制台输出的数据,输出格式为SUCCESS
 
@@ -51,7 +51,7 @@ def success(msg, *args, **kwargs):
     logger.success(msg, *args, **kwargs)
 
 
-def critical(msg, *args, **kwargs):
+def critical(msg: str, *args, **kwargs):
     '''
     :param msg: 需要在控制台输出的数据,输出格式为CRITICAL
 
@@ -60,7 +60,7 @@ def critical(msg, *args, **kwargs):
     '''
     logger.critical(msg, *args, **kwargs)
 
-def exception(msg, *args, **kwargs):
+def exception(msg: str, *args, **kwargs):
     '''
     :param msg: 需要在控制台输出的数据,输出格式为EXCEPTION
 
