@@ -106,7 +106,7 @@ def gen_spider(
 if __name__ == '__main__':
     # 示例调用
     gen_spider(
-        spider_name="ztbgl_spider2",
+        spider_name="spider_name",
         web_site_name="https://www.example.com/",
         output_dir=os.getcwd()  # 输出到当前目录
     )
