@@ -107,37 +107,7 @@ if __name__ == '__main__':
     # 示例调用
     gen_spider(
         spider_name="ztbgl_spider2",
-        gen_mode="session",
+        gen_mode="request",
         web_site_name="https://www.example.com/",
         output_dir=os.getcwd()  # 输出到当前目录
     )
-    {
-        "name": "title",
-        "value": "//div[@class='list']/li/a",
-        "type": "str",
-        "out_process": None
-    },
-    {
-        "name": "url",
-        "value": "//div[@class='list']/li/a",
-        "type": "url",
-        "out_process": None
-    },
-    {
-        "name": "raw_html",
-        "value": "//form[@name='_newscontent_fromname']",
-        "type": "html",
-        "out_process": None
-    },
-    {
-        "name": "file_urls",
-        "value": "//ul[@style='list-style-type:none;']/li/a",
-        "type": "file",
-        "out_process": None
-    },
-    {
-        "name": "published_at",
-        "value": "//div[@class='nry_tit']/p",
-        "type": "date",
-        "out_process": None
-    },
