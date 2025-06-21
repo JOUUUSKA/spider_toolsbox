@@ -15,9 +15,9 @@
 
 **1、识别英文＋数字验证码**
 ```python  
-from spider_toolsbox.tools.ocr.ocrer import ocr_img
+from spider_toolsbox.tools.ocr.ocrer import recognize_text_captcha
 
-result = ocr_img(img_path)
+result = recognize_text_captcha(image_source)
 ```
 返回给图片中显示的验证码  
 ---
@@ -32,9 +32,9 @@ result = ocr_img(img_path)
 
 ![Test](https://cdn.wenanzhe.com/img/fullpage.jpg) 
 ```python  
-from spider_toolsbox.tools.ocr.ocrer import ocr_slide_with_hole
+from spider_toolsbox.tools.ocr.ocrer import recognize_slide_captcha_with_hole
 
-result = ocr_slide_with_hole(bgimg_path, fullpage_path)
+result = recognize_slide_captcha_with_hole(background_source, fullpage_source)
 ```    
 返回图片中显示的滑块图缺口坐标
 ---小滑块为单独的png图片，背景是透明图，如下图
@@ -45,9 +45,9 @@ result = ocr_slide_with_hole(bgimg_path, fullpage_path)
 
 ![Test](https://cdn.wenanzhe.com/img/a.png) <br>
 ```python  
-from spider_toolsbox.tools.ocr.ocrer import ocr_slide_with_clean
+from spider_toolsbox.tools.ocr.ocrer import recognize_slide_captcha_with_transparent
 
-result = ocr_slide_with_clean(bgimg_path, fullpage_path)
+result = recognize_slide_captcha_with_transparent(slider_source, background_source)
 ```   
 返回图片中显示的滑块图缺口坐标
 ---
@@ -61,9 +61,9 @@ result = ocr_slide_with_clean(bgimg_path, fullpage_path)
 
 ![Test](https://cdn.wenanzhe.com/img/f34390d4911c45ce9058dc2e7e9d847a.jpg) 
 ```python  
-from spider_toolsbox.tools.ocr.ocrer import ocr_click_choose
+from spider_toolsbox.tools.ocr.ocrer import recognize_click_captcha
 
-result = ocr_click_choose(test_img_path, result_img_path)
+result = recognize_click_captcha(image_source, output_path)
 ```
 返回图片中显示的 点选验证码 所在坐标  
 

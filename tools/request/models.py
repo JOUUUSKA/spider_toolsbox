@@ -11,16 +11,38 @@ class Request(BaseRequest):
     同步请求的Request
     '''
     def set_response(self, **kwargs):
-        self._response = httpx.request(
-            self.method.lower(),
-            self.req_url,
-            headers=self.headers,
-            params=self.params,
-            data=self.data,
-            json=self.jsondata,
-            **kwargs
-        )
-        return self._response
+        if kwargs.get("stream") is not None and kwargs.get("stream") == True:
+            del kwargs["stream"]
+            response = httpx.stream(
+                self.method.lower(),
+                self.req_url,
+                headers=self.headers,
+                params=self.params,
+                data=self.data,
+                json=self.jsondata,
+                **kwargs
+            )
+        else:
+            # if (not kwargs) or (kwargs.get("stream", "") and kwargs.get("stream") == False):
+            #     if kwargs.get("stream"):
+            #         del kwargs["stream"]
+
+            if not kwargs:
+                pass
+            elif kwargs.get("stream") is not None and kwargs.get("stream") == False:
+                del kwargs["stream"]
+            else:
+                pass
+            response = httpx.request(
+                self.method.lower(),
+                self.req_url,
+                headers=self.headers,
+                params=self.params,
+                data=self.data,
+                json=self.jsondata,
+                **kwargs
+            )
+        return response
 
 
 class SessionRequest(BaseRequest):

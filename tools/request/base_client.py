@@ -2,6 +2,7 @@ from typing import Optional, Dict, Any, Callable
 from urllib.parse import urljoin
 
 import chardet
+from httpx import Response
 from scrapy import Selector
 
 from tools.request import create_default_headers
@@ -92,7 +93,8 @@ class BaseRequest(BaseClient):
 
         self._response = self.set_response(**kwargs)
 
-        self._response.default_encoding = self.autodetect_encoding(self._response.content)
+        if kwargs.get("stream") is not None and kwargs.get("stream") == False:
+            self._response.default_encoding = self.autodetect_encoding(self._response.content)
 
     async def __ainit__(
             self,
@@ -129,7 +131,10 @@ class BaseRequest(BaseClient):
         '''
         定义Request的样式
         '''
-        return f"<Request [{self.method.upper()} {self.status_code} {self.req_url}]>"
+        if isinstance(self._response, Response):
+            return f"<{type(self._response)} [{self.method.upper()} {self.status_code} {self.req_url}]>"
+        else:
+            return f"<{type(self._response)} [{self.method.upper()} {self.req_url}]>"
 
     def set_response(self, **kwargs):
         '''
@@ -208,6 +213,12 @@ class BaseRequest(BaseClient):
         '''
         return self._response.iter_content(*args, **kwargs)
 
+    def iter_bytes(self, *args, **kwargs):
+        '''
+        返回响应字节流
+        '''
+        return self._response.iter_bytes(*args, **kwargs)
+
     @staticmethod
     def headers(self, *args, **kwargs):
         '''
@@ -235,3 +246,6 @@ class BaseRequest(BaseClient):
         '''
         cookies_dict = {k: v for k, v in self.cookies.items()}
         return cookies_dict
+
+    def raise_for_status(self):
+        return self._response.raise_for_status()

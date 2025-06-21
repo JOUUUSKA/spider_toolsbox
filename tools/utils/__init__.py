@@ -1,6 +1,6 @@
 from .date import *
 from .file import *
-from .html import *
+from .html_page import *
 from .number import *
 from .page import *
 from .text import *

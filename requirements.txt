@@ -15,3 +15,5 @@ xml
 parsel
 number_parser
 price_parser
+numpy
+tqdm

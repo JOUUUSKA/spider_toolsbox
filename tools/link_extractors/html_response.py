@@ -17,7 +17,7 @@ from w3lib.html import strip_html5_whitespace
 from w3lib.url import safe_url_string
 
 from tools.utils.text import clear_text
-from tools.utils.html import html_find_specific_string
+from tools.utils.html_page import html_find_specific_string
 from tools.utils.url import is_valid_url
 
 from tools.utils import extract_date

@@ -45,7 +45,7 @@ class $classname:
     def parse_detail(self, responses):
         for idx, res in enumerate(responses):
             published_at = extract_date_by_response_xpath(res, "published_atXpath")
-            raw_html =res.xpath("raw_htmlXpath']").get()
+            raw_html =res.xpath("raw_htmlXpath").get()
             file = get_xpath_file_info(res, "fileXpath")
             logger.info(f"published_at: {published_at}, raw_html: {raw_html[:10]}, file: {file}")
 

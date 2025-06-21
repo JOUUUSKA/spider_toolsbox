@@ -1,8 +1,9 @@
 from tools.ocr.ocrer import *
 
 __all__ = [
-    "ocr_img",
-    "ocr_slide_with_hole",
-    "ocr_slide_with_clean",
-    "ocr_click_choose",
+    "get_image_bytes",
+    "recognize_text_captcha",
+    "recognize_slide_captcha_with_hole",
+    "recognize_slide_captcha_with_transparent",
+    "recognize_click_captcha",
 ]
